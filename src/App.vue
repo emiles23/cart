@@ -48,7 +48,7 @@
 
                   <div class="mt-8">
                     <div class="flow-root">
-                      <ul v-for="(productBag, index) in shoppingBag" :key="index" role="list">
+                      <ul v-for="(productBag, index) in shoppingCart" :key="index" role="list">
                         <li :class="index > 0 ? 'border-t border-gray-200' : ''" class="flex py-8 mt-4">
                           <div class="h-24 w-24 flex-shrink-0 border border-gray-200 overflow-hidden rounded-md">
                             <img :src="productBag.img" alt="" class="h-full w-full object-cover object-center">
@@ -375,7 +375,7 @@ export default {
         },
 
       ],
-      shoppingBag: [],
+      shoppingCart: [],
       search: ''
 
     }
@@ -384,7 +384,7 @@ export default {
     addCart(product) {
       // console.log(this.searchProduct(), 'hola')
       var product = { ...product }
-      var productFound = this.shoppingBag.find(productBag => product.name == productBag.name)
+      var productFound = this.shoppingCart.find(productBag => product.name == productBag.name)
       // console.log(productFound)
 
       if (productFound) {
@@ -394,11 +394,11 @@ export default {
       product.quantity = 1
       product.price = product.discountedPrice > 0 ? product.discountedPrice : product.price
       console.log(product.price)
-      this.shoppingBag = [product, ...this.shoppingBag]
+      this.shoppingCart = [product, ...this.shoppingCart]
     },
 
     elementCart() {
-      return this.shoppingBag.length == 0
+      return this.shoppingCart.length == 0
 
     },
 
@@ -410,42 +410,42 @@ export default {
         return
       }
 
-      this.shoppingBag = this.shoppingBag.filter((productBag) => productBag.name != productToDelete.name);
+      this.shoppingCart = this.shoppingCart.filter((productBag) => productBag.name != productToDelete.name);
 
 
-      // if (this.shoppingBag[index].quantity > 1) {   
-      //   return this.shoppingBag[index].quantity--
+      // if (this.shoppingCart[index].quantity > 1) {   
+      //   return this.shoppingCart[index].quantity--
       // } 
       // const resultado = animales.filter(animal => animal != 'oso');
 
-      // this.shoppingBag = this.shoppingBag.filter((productBag, productBagIndex) => productBagIndex != index);
+      // this.shoppingCart = this.shoppingCart.filter((productBag, productBagIndex) => productBagIndex != index);
 
-      // this.shoppingBag.splice(index,1)
+      // this.shoppingCart.splice(index,1)
 
-      // this.shoppingBag = [
-      //   ...this.shoppingBag.slice(0, index),
-      //   ...this.shoppingBag.slice(index + 1),
+      // this.shoppingCart = [
+      //   ...this.shoppingCart.slice(0, index),
+      //   ...this.shoppingCart.slice(index + 1),
       // ];
 
     },
 
     deleteAll() {
-      return this.shoppingBag = []
+      return this.shoppingCart = []
     },
 
     subtotal() {
-      return this.shoppingBag.map(product => product.quantity * product.price)
+      return this.shoppingCart.map(product => product.quantity * product.price)
         .reduce((acc, toPay) => acc + toPay, 0);
     },
 
     getDiscountsApplied() {
-      return this.discounts.filter(discountedBrand => this.shoppingBag
-        .some(shoppingBagProduct => discountedBrand.brand === shoppingBagProduct.brand))
+      return this.discounts.filter(discountedBrand => this.shoppingCart
+        .some(shoppingCartProduct => discountedBrand.brand === shoppingCartProduct.brand))
     },
 
     totalPerBrand(discount) {
 
-      return this.shoppingBag
+      return this.shoppingCart
         .filter(productBag => productBag.brand == discount.brand)
         .map(product => product.quantity * product.price)
         .reduce((acc, toPay) => acc + toPay, 0)
