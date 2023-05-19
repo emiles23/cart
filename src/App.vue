@@ -28,112 +28,108 @@
       </div>
       <div v-if="!elementCart()" class="relative z-10">
         <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
-        <div class="fixed inset-0 overflow-hidden">
-          <div class="absolute inset-0 overflow-hidden">
-            <div class="pointer-events-none fixed inset-y-0 right-0 flex max-w-full pl-10">
-              <div class="pointer-events-auto w-screen max-w-md">
-                <div class="flex h-full flex-col overflow-y-scroll bg-white shadow-xl">
-                  <div class="flex-1 overflow-y-auto px-4 py-6 sm:px-6">
-                    <div class="flex items-start justify-between">
-                      <h2 class="text-lg font-medium text-gray-900" id="slide-over-title">Cesta de compra</h2>
-                      <div class="ml-3 flex h-7 items-center">
-                        <button @click="showCart = !showCart" type="button"
-                          class="-m-2 p-2 text-gray-400 hover:text-gray-500">
-                          <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
-                            aria-hidden="true">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-                          </svg>
-                        </button>
-                      </div>
-                    </div>
-
-                    <div class="mt-8">
-                      <div class="flow-root">
-                        <ul v-for="(productBag, index) in shoppingBag" :key="index" role="list"
-                          class="-my-6 divide-y divide-gray-200">
-                          <li :class="index > 0 ? 'border-t border-gray-200' : ''" class="flex py-8 mt-4">
-                            <div class="h-24 w-24 flex-shrink-0 border border-gray-200 overflow-hidden rounded-md">
-                              <img :src="productBag.img" alt="" class="h-full w-full object-cover object-center">
-                            </div>
-                            <div class="ml-4 flex flex-1 flex-col">
-                              <div class="flex justify-between  text-sm font-medium text-gray-900">
-                                <h3>
-                                  <a href="#">{{ productBag.name }}</a>
-                                </h3>
-                                <div class="text-center text-slate-600">
-                                  <span v-if="productBag.productDiscount" class="flex justify-center text-center gap-4">
-                                    <span
-                                      :class="productBag.productDiscount ? 'line-through decoration text-gray-400' : ''">
-                                      ${{ productBag.price + productBag.productDiscount }}
-                                    </span>
-                                    <span>
-                                      {{ productBag.discountRepresentation }}
-                                    </span>
-                                  </span>
-                                  <span>
-                                    ${{ productBag.discountedPrice }}
-                                  </span>
-                                </div>
-                              </div>
-                              <p class="mt-1 text-sm text-gray-500 capitalize">{{ productBag.brand }}</p>
-
-                              <div class="flex flex-1 items-end justify-between text-sm">
-                                <p class="text-gray-500">Qty {{ productBag.quantity }}</p>
-
-                                <div class="flex gap-7">
-                                  <button @click="addCart(productBag)" type="button"
-                                    class="font-medium text-indigo-600 hover:text-indigo-500">Agregar</button>
-                                  <button @click="deleteCart(productBag)" type="button"
-                                    class="font-medium text-indigo-600 hover:text-indigo-500">Eliminar</button>
-                                </div>
-                              </div>
-                            </div>
-                          </li>
-                          <!-- More products... -->
-                        </ul>
-                      </div>
+        <div class="absolute inset-0 overflow-hidden">
+          <div class="fixed inset-y-0 right-0 flex max-w-full pl-10">
+            <div class="max-w-md">
+              <div class="flex h-full flex-col overflow-y-scroll bg-white shadow-xl">
+                <div class="flex-1 overflow-y-auto px-4 py-6 sm:px-6">
+                  <div class="flex items-start justify-between">
+                    <h2 class="text-lg font-medium text-gray-900" id="slide-over-title">Carrito de compra</h2>
+                    <div class="ml-3 flex h-7 items-center">
+                      <button @click="showCart = !showCart" type="button"
+                        class="-m-2 p-2 text-gray-400 hover:text-gray-500">
+                        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+                          aria-hidden="true">
+                          <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                      </button>
                     </div>
                   </div>
 
-                  <div class="border-t border-gray-200 px-4 py-6 sm:px-6 text-slate-600">
-                    <!-- estos son los descuentos -->
-                    <ul v-if="discountsApplied" class="p-5 text-sm  ">
-                      <li v-for="(discount, index) in discountsApplied" :key="index" class="pb-4">
-                        <span v-if="discount.remainingForDiscount > 0">
-                          Obten un descuento del
-                          <strong class=" text-red-500">{{ discount.value }}%</strong>
-                          por llevar <strong class="font-extrabold"> ${{ discount.min }}</strong>
-                          en la marca
-                          <strong class="font-extrabold">{{ discount.brand }}</strong>
-                          faltan <strong class="font-extrabold"> ${{ discount.remainingForDiscount.toFixed(2) }}</strong>
-                        </span>
-                        <span v-else>
-                          Se ha aplicado un descuento del
-                          <strong class=" text-red-500">{{ discount.value }}%</strong>
-                          por llevar <strong class="font-extrabold"> ${{ discount.totalPaymentPerBrand.toFixed(2)
-                          }}</strong>
-                          en la marca
-                          <strong class="font-extrabold">{{ discount.brand }}</strong>
-                        </span>
-                      </li>
-                    </ul>
-                    <!-- total and subtotal -->
-                    <div v-if="!elementCart()" class="flex justify-between text-sm  font-medium">
-                      <div>
-                        <p>Subtotal actual:</p>
-                        <p v-if="summary.totalDiscount" class="text-red-600">Descuento:</p>
-                        <p>Total</p>
-                      </div>
-                      <div>
-                        <p>${{ summary.subtotal.toFixed(2) }}</p>
-                        <p v-if="summary.totalDiscount" class="text-red-600">-${{ summary.totalDiscount.toFixed(2) }}</p>
-                        <p class=" border-t border-slate-700">${{ summary.total.toFixed(2) }}</p>
-                      </div>
-
+                  <div class="mt-8">
+                    <div class="flow-root">
+                      <ul v-for="(productBag, index) in shoppingBag" :key="index" role="list">
+                        <li :class="index > 0 ? 'border-t border-gray-200' : ''" class="flex py-8 mt-4">
+                          <div class="h-24 w-24 flex-shrink-0 border border-gray-200 overflow-hidden rounded-md">
+                            <img :src="productBag.img" alt="" class="h-full w-full object-cover object-center">
+                          </div>
+                          <div class="ml-4 flex flex-1 flex-col">
+                            <div class="flex justify-between  text-sm font-medium text-gray-900">
+                              <h3>
+                                <a href="#">{{ productBag.name }}</a>
+                              </h3>
+                              <div class="text-center text-slate-600">
+                                <span v-if="productBag.productDiscount" class="flex justify-center text-center gap-4">
+                                  <span
+                                    :class="productBag.productDiscount ? 'line-through decoration text-gray-400' : ''">
+                                    ${{ productBag.price + productBag.productDiscount }}
+                                  </span>
+                                  <span>
+                                    {{ productBag.discountRepresentation }}
+                                  </span>
+                                </span>
+                                <span>
+                                  ${{ productBag.discountedPrice }}
+                                </span>
+                              </div>
+                            </div>
+                            <p class="mt-1 text-sm text-gray-500 capitalize">{{ productBag.brand }}</p>
+                            <div class="flex flex-1 items-end justify-between text-sm">
+                              <p class="text-gray-500">Qty {{ productBag.quantity }}</p>
+                              <div class="flex gap-7">
+                                <button @click="addCart(productBag)" type="button"
+                                  class="font-medium text-indigo-600 hover:text-indigo-500">Agregar</button>
+                                <button @click="deleteCart(productBag)" type="button"
+                                  class="font-medium text-red-500 hover:text-red-700">Eliminar</button>
+                              </div>
+                            </div>
+                          </div>
+                        </li>
+                        <!-- More products... -->
+                      </ul>
                     </div>
-                    <!-- <p class="mt-0.5 text-sm text-gray-500">Shipping and taxes calculated at checkout.</p> -->
-                    <div class="mt-6">
-                      <a href="#" class="
+                  </div>
+                </div>
+
+                <div class="border-t border-gray-200 px-4 py-6 sm:px-6 text-slate-600">
+                  <!-- estos son los descuentos -->
+                  <ul v-if="discountsApplied" class="p-5 text-sm  ">
+                    <li v-for="(discount, index) in discountsApplied" :key="index" class="pb-4">
+                      <span v-if="discount.remainingForDiscount > 0">
+                        Obten un descuento del
+                        <strong class=" text-red-500">{{ discount.value }}%</strong>
+                        por llevar <strong class="font-extrabold"> ${{ discount.min }}</strong>
+                        en la marca
+                        <strong class="font-extrabold">{{ discount.brand }}</strong>
+                        faltan <strong class="font-extrabold"> ${{ discount.remainingForDiscount.toFixed(2) }}</strong>
+                      </span>
+                      <span v-else>
+                        Se ha aplicado un descuento del
+                        <strong class=" text-red-500">{{ discount.value }}%</strong>
+                        por llevar <strong class="font-extrabold"> ${{ discount.totalPaymentPerBrand.toFixed(2)
+                        }}</strong>
+                        en la marca
+                        <strong class="font-extrabold">{{ discount.brand }}</strong>
+                      </span>
+                    </li>
+                  </ul>
+                  <!-- total and subtotal -->
+                  <div v-if="!elementCart()" class="flex justify-between text-sm  font-medium">
+                    <div>
+                      <p>Subtotal actual:</p>
+                      <p v-if="summary.totalDiscount" class="text-red-600">Descuento:</p>
+                      <p>Total</p>
+                    </div>
+                    <div>
+                      <p>${{ summary.subtotal.toFixed(2) }}</p>
+                      <p v-if="summary.totalDiscount" class="text-red-600">-${{ summary.totalDiscount.toFixed(2) }}</p>
+                      <p class=" border-t border-slate-700">${{ summary.total.toFixed(2) }}</p>
+                    </div>
+
+                  </div>
+                  <!-- <p class="mt-0.5 text-sm text-gray-500">Shipping and taxes calculated at checkout.</p> -->
+                  <div class="mt-6">
+                    <a href="#" class="
                         flex items-center 
                         justify-center
                          rounded-md border
@@ -143,27 +139,29 @@
                            font-medium 
                            text-white shadow-sm 
                            hover:bg-indigo-700">
-                        Checkout
-                      </a>
-                    </div>
-                    <div class="mt-6 flex justify-center text-center text-sm text-gray-500">
-                      <button v-if="!elementCart()" @click="deleteAll()" type="button"
-                        class="font-medium text-red-500 hover:text-red-700">
-                        Eliminar Todo
-                      </button>
-                    </div>
+                      Checkout
+                    </a>
+                  </div>
+                  <div class="mt-6 flex justify-center text-center text-sm text-gray-500">
+                    <button v-if="!elementCart()" @click="deleteAll()" type="button"
+                      class="font-medium text-red-500 hover:text-red-700">
+                      Eliminar Todo
+                    </button>
                   </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
+
       </div>
     </div>
     <!-- product -->
     <div class="bg-white text-sm">
       <div class="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
-        <h2 class="text-2xl font-bold tracking-tight text-gray-900">Tienda</h2>
+        <h2 class="text-2xl font-bold tracking-tight text-gray-900">Productos disponible
+          4
+        </h2>
 
         <div class="mt-6 grid grid-cols-1 gap-x-10 gap-y-20 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
           <div v-for="(product, index) in productsWithDicount" :key="index" class="group relative">
