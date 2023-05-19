@@ -1,150 +1,217 @@
 <template>
-  <div class="text-white  ">
+  <div class="font-medium   ">
 
     <!-- este es el menu -->
     <div class="flex items-center justify-end gap-20 pr-10 w-full h-20 bg-slate-900 ">
-      <div class="flex ti bzm w-48">
-        <div class="flex gap-2">
+      <div class="flex">
+        <div class="flex gap-2 relative">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"
+            class="absolute right-2 top-1 h-5 w-5 text-gray-400">
+            <path fill-rule="evenodd"
+              d="M9 3.5a5.5 5.5 0 100 11 5.5 5.5 0 000-11zM2 9a7 7 0 1112.452 4.391l3.328 3.329a.75.75 0 11-1.06 1.06l-3.329-3.328A7 7 0 012 9z"
+              clip-rule="evenodd"></path>
+          </svg>
           <input v-model="search" id="search" name="search" placeholder="Search" type="search"
-            class="px-3 py-1 rounded-lg bg-slate-700 focus:bg-white focus:text-black">
+            class="px-3 py-1 rounded-lg bg-slate-700 focus:bg-white focus:text-slate-600 text-slate-500">
         </div>
       </div>
 
-      <button @click="showCart = !showCart" class=" bg-gray-800 px-8 py-2 rounded-lg hover:bg-slate-700">Cart</button>
+
+      <button @click="showCart = !showCart"
+        class="text-slate-300 bg-gray-800 px-8 py-2 rounded-lg hover:bg-slate-700">Cart</button>
     </div>
     <!-- este es el carrito -->
 
     <div v-if="showCart" class="absolute right-0 top-20 bg-slate-800 w-96 max-h-screen-80 z-10 overflow-y-scroll">
       <div v-if="elementCart()">
-        <h1 class=" text-lg text-center py-6">Tu bolsa esta vacia</h1>
+        <h1 class="text-slate-300  text-base text-center py-6">Tu bolsa esta vacia</h1>
       </div>
+      <div v-if="!elementCart()" class="relative z-10">
+        <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
+        <div class="fixed inset-0 overflow-hidden">
+          <div class="absolute inset-0 overflow-hidden">
+            <div class="pointer-events-none fixed inset-y-0 right-0 flex max-w-full pl-10">
+              <div class="pointer-events-auto w-screen max-w-md">
+                <div class="flex h-full flex-col overflow-y-scroll bg-white shadow-xl">
+                  <div class="flex-1 overflow-y-auto px-4 py-6 sm:px-6">
+                    <div class="flex items-start justify-between">
+                      <h2 class="text-lg font-medium text-gray-900" id="slide-over-title">Cesta de compra</h2>
+                      <div class="ml-3 flex h-7 items-center">
+                        <button @click="showCart = !showCart" type="button"
+                          class="-m-2 p-2 text-gray-400 hover:text-gray-500">
+                          <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+                            aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                          </svg>
+                        </button>
+                      </div>
+                    </div>
 
-      <!-- estos son los descuentos -->
-      <ul v-if="discountsApplied" class="p-5">
-        <li v-for="(discount, index) in discountsApplied" :key="index" class="pb-4">
-          <span v-if="discount.remainingForDiscount > 0">
-            Obten un descuento del
-            <strong class="text-xl text-red-500">{{ discount.value }}%</strong>
-            por llevar <strong class="text-teal-500"> ${{ discount.min }}</strong>
-            en la marca
-            <strong class="text-teal-300">{{ discount.brand }}</strong>
-            faltan <strong class="text-teal-500"> ${{ discount.remainingForDiscount.toFixed(2) }}</strong>
-          </span>
-          <span v-else>
-            Se ha aplicado un descuento del
-            <strong class="text-xl text-red-500">{{ discount.value }}%</strong>
-            por llevar <strong class="text-teal-500"> ${{ discount.totalPaymentPerBrand.toFixed(2) }}</strong>
-            en la marca
-            <strong class="text-teal-300">{{ discount.brand }}</strong>
-          </span>
-        </li>
-      </ul>
+                    <div class="mt-8">
+                      <div class="flow-root">
+                        <ul v-for="(productBag, index) in shoppingBag" :key="index" role="list"
+                          class="-my-6 divide-y divide-gray-200">
+                          <li :class="index > 0 ? 'border-t border-gray-200' : ''" class="flex py-8 mt-4">
+                            <div class="h-24 w-24 flex-shrink-0 border border-gray-200 overflow-hidden rounded-md">
+                              <img :src="productBag.img" alt="" class="h-full w-full object-cover object-center">
+                            </div>
+                            <div class="ml-4 flex flex-1 flex-col">
+                              <div class="flex justify-between  text-sm font-medium text-gray-900">
+                                <h3>
+                                  <a href="#">{{ productBag.name }}</a>
+                                </h3>
+                                <div class="text-center text-slate-600">
+                                  <span v-if="productBag.productDiscount" class="flex justify-center text-center gap-4">
+                                    <span
+                                      :class="productBag.productDiscount ? 'line-through decoration text-gray-400' : ''">
+                                      ${{ productBag.price + productBag.productDiscount }}
+                                    </span>
+                                    <span>
+                                      {{ productBag.discountRepresentation }}
+                                    </span>
+                                  </span>
+                                  <span>
+                                    ${{ productBag.discountedPrice }}
+                                  </span>
+                                </div>
+                              </div>
+                              <p class="mt-1 text-sm text-gray-500 capitalize">{{ productBag.brand }}</p>
 
-      <div v-if="!elementCart()" class="flex gap-8 justify-center items-center">
-        <div style="float:left;">
-          <table>
-            <tr>
-              <td>Subtotal actual:</td>
-            </tr>
-            <tr>
-              <td v-if="summary.totalDiscount" class="text-red-600">Descuento:</td>
-            </tr>
-            <tr>
-              <td>Total:</td>
-            </tr>
-          </table>
-        </div>
-        <div style="float:left;">
-          <table>
-            <tr>
-              <td>${{ summary.subtotal.toFixed(2) }}</td>
-            </tr>
-            <tr>
-              <td v-if="summary.totalDiscount" class="text-red-600">-${{ summary.totalDiscount.toFixed(2) }}</td>
-            </tr>
-            <tr>
-              <td class=" border-t">${{ summary.total.toFixed(2) }}</td>
-            </tr>
-          </table>
-        </div>
-      </div>
+                              <div class="flex flex-1 items-end justify-between text-sm">
+                                <p class="text-gray-500">Qty {{ productBag.quantity }}</p>
 
-      <ul v-for="(productBag, index) in shoppingBag" :key="index" class="grid grid-cols-12 gap-2 p-5 ">
-        <div class="col-span-4 ">
-          <li v-if="productBag.img" class="border-2 border-teal-800 w-20 h-20"> <img :src="productBag.img" alt="" />
-          </li>
-        </div>
-        <div class=" col-span-8">
-          <ul>
-            <li>{{ productBag.name }}</li>
-            <li class="text-lg font-semibold pt-4">{{ productBag.brand }}</li>
-          </ul>
-          <div class="text-xl text-center">
-            <span v-if="productBag.productDiscount" class="flex justify-center text-center gap-4">
-              <span :class="productBag.productDiscount ? 'line-through decoration' : ''">
-                ${{ productBag.price + productBag.productDiscount }}
-              </span>
-              <span>
-                {{ productBag.discountRepresentation }}
-              </span>
-            </span>
-            <span>
-              ${{ productBag.discountedPrice }}
-            </span>
+                                <div class="flex gap-7">
+                                  <button @click="addCart(productBag)" type="button"
+                                    class="font-medium text-indigo-600 hover:text-indigo-500">Agregar</button>
+                                  <button @click="deleteCart(productBag)" type="button"
+                                    class="font-medium text-indigo-600 hover:text-indigo-500">Eliminar</button>
+                                </div>
+                              </div>
+                            </div>
+                          </li>
+                          <!-- More products... -->
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="border-t border-gray-200 px-4 py-6 sm:px-6 text-slate-600">
+                    <!-- estos son los descuentos -->
+                    <ul v-if="discountsApplied" class="p-5 text-sm  ">
+                      <li v-for="(discount, index) in discountsApplied" :key="index" class="pb-4">
+                        <span v-if="discount.remainingForDiscount > 0">
+                          Obten un descuento del
+                          <strong class=" text-red-500">{{ discount.value }}%</strong>
+                          por llevar <strong class="font-extrabold"> ${{ discount.min }}</strong>
+                          en la marca
+                          <strong class="font-extrabold">{{ discount.brand }}</strong>
+                          faltan <strong class="font-extrabold"> ${{ discount.remainingForDiscount.toFixed(2) }}</strong>
+                        </span>
+                        <span v-else>
+                          Se ha aplicado un descuento del
+                          <strong class=" text-red-500">{{ discount.value }}%</strong>
+                          por llevar <strong class="font-extrabold"> ${{ discount.totalPaymentPerBrand.toFixed(2)
+                          }}</strong>
+                          en la marca
+                          <strong class="font-extrabold">{{ discount.brand }}</strong>
+                        </span>
+                      </li>
+                    </ul>
+                    <!-- total and subtotal -->
+                    <div v-if="!elementCart()" class="flex justify-between text-sm  font-medium">
+                      <div>
+                        <p>Subtotal actual:</p>
+                        <p v-if="summary.totalDiscount" class="text-red-600">Descuento:</p>
+                        <p>Total</p>
+                      </div>
+                      <div>
+                        <p>${{ summary.subtotal.toFixed(2) }}</p>
+                        <p v-if="summary.totalDiscount" class="text-red-600">-${{ summary.totalDiscount.toFixed(2) }}</p>
+                        <p class=" border-t border-slate-700">${{ summary.total.toFixed(2) }}</p>
+                      </div>
+
+                    </div>
+                    <!-- <p class="mt-0.5 text-sm text-gray-500">Shipping and taxes calculated at checkout.</p> -->
+                    <div class="mt-6">
+                      <a href="#" class="
+                        flex items-center 
+                        justify-center
+                         rounded-md border
+                          border-transparent 
+                          bg-indigo-600 px-6
+                           py-3 text-base 
+                           font-medium 
+                           text-white shadow-sm 
+                           hover:bg-indigo-700">
+                        Checkout
+                      </a>
+                    </div>
+                    <div class="mt-6 flex justify-center text-center text-sm text-gray-500">
+                      <button v-if="!elementCart()" @click="deleteAll()" type="button"
+                        class="font-medium text-red-500 hover:text-red-700">
+                        Eliminar Todo
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
-        <div class="col-span-12 flex justify-end">
-          <ul class="flex justify-around gap-4 text-xl border border-teal-700 rounded-full w-full text-center mt-8">
-            <li @click="deleteCart(productBag)" class="text-red-600 cursor-pointer p-2 text-3xl">
-              -
-            </li>
-            <li class="p-2">{{ productBag.quantity }}</li>
-            <li @click="addCart(productBag)" class="text-blue-400 cursor-pointer p-2 text-3xl">
-              +
-            </li>
-          </ul>
-        </div>
-      </ul>
-
-      <button v-if="!elementCart()" @click="deleteAll()"
-        class="bg-teal-800 py-2 text-center text-lg font-semibold	border-slate-800 border-2 w-full">Eliminar
-        todo
-      </button>
+      </div>
     </div>
+    <!-- product -->
+    <div class="bg-white text-sm">
+      <div class="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
+        <h2 class="text-2xl font-bold tracking-tight text-gray-900">Tienda</h2>
 
-    <!-- estos son los productos -->
-    <div class="flex items-center justify-center pt-40">
-      <div class="grid grid-cols-12 gap-10">
-        <div v-for="(product, index) in productsWithDicount" :key="index"
-          class=" col-span-4 w-96 h-auto  text-lg bg-teal-800">
-          <div class="border-2 border-teal-800"> <img :src="product.img" alt="" /></div>
-          <ul class="px-10 py-5 h-36">
-            <li>{{ product.name }}</li>
-            <li>{{ product.brand }}</li>
-          </ul>
-          <div class="text-4xl text-center pb-4 h-20">
-            <span v-if="product.productDiscount" class="flex justify-center text-center gap-4">
-              <span :class="product.productDiscount ? 'line-through decoration' : ''">
-                ${{ product.price }}
-              </span>
-              <span>
-                {{ product.discountRepresentation }}
+        <div class="mt-6 grid grid-cols-1 gap-x-10 gap-y-20 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
+          <div v-for="(product, index) in productsWithDicount" :key="index" class="group relative">
+            <div
+              class="min-h-80 aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-80">
+              <img :src="product.img" class="h-full w-full object-cover object-center lg:h-full lg:w-full">
+            </div>
+            <div class="mt-4 flex gap-9 justify-between">
+              <ul>
+                <li class=" text-gray-700">
+                  {{ product.name }}
+                </li>
+                <li class="mt-1  text-gray-500 capitalize">
+                  {{ product.brand }}
+                </li>
+              </ul>
+              <div>
+                <div class="text-center pb-4 h-20  font-medium text-slate-600">
+                  <span v-if="product.productDiscount" class="flex justify-center text-center gap-4">
+                    <span :class="product.productDiscount ? 'line-through decoration text-gray-400' : ''">
+                      ${{ product.price }}
+                    </span>
+                    <span>
+                      {{ product.discountRepresentation }}
 
-              </span>
-            </span>
-            <span v-if="product.productDiscount">
-              ${{ product.discountedPrice.toFixed(2) }}
-            </span>
-            <span v-else>
-              ${{ product.price }}
-            </span>
+                    </span>
+                  </span>
+                  <span v-if="product.productDiscount">
+                    ${{ product.discountedPrice.toFixed(2) }}
+                  </span>
+                  <span v-else>
+                    ${{ product.price }}
+                  </span>
+                </div>
+
+              </div>
+            </div>
+
+            <h1 @click="addCart(product)" class="text-center text-zinc-950 hover:text-zinc-700 cursor-pointer">
+              Agregar al Carrito
+            </h1>
           </div>
-          <button @click="addCart(product)" class="text-center text-lg py-1 bg-teal-950 w-full mt-3">
-            Agregar al Carrito
-          </button>
+
+          <!-- More products... -->
         </div>
       </div>
     </div>
+
   </div>
 </template>
 
@@ -317,7 +384,7 @@ export default {
   },
   methods: {
     addCart(product) {
-      console.log(this.searchProduct(), 'hola')
+      // console.log(this.searchProduct(), 'hola')
       var product = { ...product }
       var productFound = this.shoppingBag.find(productBag => product.name == productBag.name)
       // console.log(productFound)
