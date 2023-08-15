@@ -91,28 +91,43 @@
                   </div>
                 </div>
 
-                <div class="border-t border-gray-200 px-4 py-6 sm:px-6 text-slate-600">
+                <div class="border-t border-gray-200 px-4 py-6 sm:px-6 text-justify text-slate-600 text-sm">
                   <!-- estos son los descuentos -->
-                  <ul v-if="discountsApplied" class="p-5 text-sm  ">
-                    <li v-for="(discount, index) in discountsApplied" :key="index" class="pb-4">
-                      <span v-if="discount.remainingForDiscount > 0">
-                        Obten un descuento del
-                        <strong class=" text-red-500">{{ discount.value }}%</strong>
-                        por llevar <strong class="font-extrabold"> ${{ discount.min }}</strong>
-                        en la marca
-                        <strong class="font-extrabold">{{ discount.brand }}</strong>
-                        faltan <strong class="font-extrabold"> ${{ discount.remainingForDiscount.toFixed(2) }}</strong>
-                      </span>
-                      <span v-else>
-                        Se ha aplicado un descuento del
-                        <strong class=" text-red-500">{{ discount.value }}%</strong>
-                        por llevar <strong class="font-extrabold"> ${{ discount.totalPaymentPerBrand.toFixed(2)
-                        }}</strong>
-                        en la marca
-                        <strong class="font-extrabold">{{ discount.brand }}</strong>
-                      </span>
-                    </li>
-                  </ul>
+                  <div class="p-5">
+                    <ul v-if="discountsApplied">
+                      <li v-for="(discount, index) in discountsApplied" :key="index" class="pb-4">
+                        <span v-if="discount.remainingForDiscount > 0">
+                          Obten un descuento del
+                          <span>{{ discount.value }}%</span>
+                          por llevar <span class="font-extrabold"> ${{ discount.min }}</span>
+                          en la marca
+                          <span>{{ discount.brand }}</span>
+                          faltan <span class="font-extrabold"> ${{ discount.remainingForDiscount.toFixed(2) }}</span>
+                        </span>
+                        <span v-else>
+                          Se ha aplicado un descuento del
+                          <span class=" text-red-500">{{ discount.value }}%</span>
+                          por llevar <span class="font-extrabold"> ${{ discount.totalPaymentPerBrand.toFixed(2)
+                          }}</span>
+                          en la marca
+                          <span class="font-extrabold">{{ discount.brand }}</span>
+                        </span>
+                      </li>
+                    </ul>
+
+                    <ul v-for="(discount, index) in discountGroups" :key="index">
+                      <li>
+                        <span>
+                          Por la compra mínima de <span class="font-extrabold">${{ discount.min }}</span> incluyendo tres
+                          (3)
+                          productos distintos de las marcas
+                          <span class="font-extrabold">{{ discount.brands.join(', ') }}</span>, se aplicara un descuento
+                          del
+                          <span class="font-extrabold">{{ discount.value }}%</span> en tu factura total
+                        </span>
+                      </li>
+                    </ul>
+                  </div>
                   <!-- total and subtotal -->
                   <div v-if="!elementCart()" class="flex justify-between text-sm  font-medium">
                     <div>
@@ -122,6 +137,7 @@
                     </div>
                     <div>
                       <p>${{ summary.subtotal.toFixed(2) }}</p>
+                      <p>{{ getTheGroupDiscount() }}</p>
                       <p v-if="summary.totalDiscount" class="text-red-600">-${{ summary.totalDiscount.toFixed(2) }}</p>
                       <p class=" border-t border-slate-700">${{ summary.total.toFixed(2) }}</p>
                     </div>
@@ -156,30 +172,80 @@
 
       </div>
     </div>
+
     <!-- product -->
     <div class="bg-white text-sm">
       <div class="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
-        <h2 class="text-2xl font-bold tracking-tight text-gray-900">Productos disponible
-          4
+        <h2 class="text-2xl font-bold tracking-tight text-gray-900">
+          Productos disponible
         </h2>
 
         <div class="mt-6 grid grid-cols-1 gap-x-10 gap-y-20 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
           <div v-for="(product, index) in productsWithDicount" :key="index" class="group relative">
-            <div
-              class="min-h-80 aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-80">
+            <div class="
+              min-h-80 
+              aspect-h-1 
+              aspect-w-1 
+              w-full 
+              overflow-hidden 
+              rounded-md 
+              bg-gray-200 
+              lg:aspect-none 
+              group-hover:opacity-75 
+              lg:h-80">
               <img :src="product.img" class="h-full w-full object-cover object-center lg:h-full lg:w-full">
             </div>
-            <div class="mt-4 flex gap-9 justify-between">
+            <div class="mt-4 grid grid-cols-2  relative">
               <ul>
                 <li class=" text-gray-700">
                   {{ product.name }}
                 </li>
-                <li class="mt-1  text-gray-500 capitalize">
+                <li class="mt-1 text-gray-500 capitalize">
                   {{ product.brand }}
                 </li>
               </ul>
               <div>
                 <div class="text-center pb-4 h-20  font-medium text-slate-600">
+                  <div>
+                    <template v-if="isGroupDiscountAvailable(product)">
+                      <div class="text-gray-500">-5% por comprar
+                        <span @mouseover="openDropDownGroupDiscount(index)" @mouseleave="showCurrentiIndex = null"
+                          class="bg-gray-200 text-gray-500  px-2 shadow-lg  rounded-full font-bold cursor-pointer hover:bg-gray-300">?</span>
+
+                        <ul v-if="showCurrentiIndex == index" v-for="(discount, index) in discountGroups" :key="index"
+                          class="
+                          absolute
+                          text-gray-500 
+                          right-0
+                          z-10 
+                          mt-2 
+                          w-56 
+                          origin-top-right 
+                          rounded-md 
+                          bg-white 
+                          shadow-lg 
+                          ring-1 
+                          ring-black
+                          ring-opacity-5 
+                          focus:outline-none 
+                          text-justify
+                          p-3">
+                          <li>
+                            <span>
+                              Por la compra mínima de <span class="font-extrabold">${{ discount.min }}</span> incluyendo
+                              tres
+                              (3)
+                              productos distintos de las marcas
+                              <span class="font-extrabold">{{ discount.brands.join(', ') }}</span>, se aplicara un
+                              descuento
+                              del
+                              <span class="font-extrabold">{{ discount.value }}%</span> en tu factura total
+                            </span>
+                          </li>
+                        </ul>
+                      </div>
+                    </template>
+                  </div>
                   <span v-if="product.productDiscount" class="flex justify-center text-center gap-4">
                     <span :class="product.productDiscount ? 'line-through decoration text-gray-400' : ''">
                       ${{ product.price }}
@@ -196,7 +262,6 @@
                     ${{ product.price }}
                   </span>
                 </div>
-
               </div>
             </div>
 
@@ -226,6 +291,7 @@ export default {
     return {
       showCart: false,
       showDiscount: false,
+      showCurrentiIndex: null,
 
       products: [
         {
@@ -285,38 +351,38 @@ export default {
 
         {
           name: 'Zapatos deportivos de correr para hombre',
-          brand: 'adidas',
+          brand: 'Adidas',
           price: 300,
           img: "img/store/img10.png"
         },
         {
           name: 'Tenis para correr para mujer',
-          brand: 'adidas',
+          brand: 'Adidas',
           price: 150,
           img: "img/store/img11.png"
         },
         {
           name: 'Zapatos planos Belice estilo ballet para mujer',
-          brand: 'adidas',
+          brand: 'Adidas',
           price: 185,
           img: "img/store/img12.png"
         },
 
         {
           name: 'Plancha De Cabello Professional 450°F, plancha de pelo de cerámica ',
-          brand: 'rucha',
+          brand: 'Rucha',
           price: 260,
           img: "img/store/img13.png"
         },
         {
           name: 'Conair Plancha plana de cerámica doble, 1 pulgada',
-          brand: 'rucha',
+          brand: 'Rucha',
           price: 350,
           img: "img/store/img14.png"
         },
         {
           name: 'Titanium Ionic Hair Straightener, Professional Flat Iron For All Hair+ Types',
-          brand: 'rucha',
+          brand: 'Rucha',
           price: 185,
           img: "img/store/img15.png"
         },
@@ -346,7 +412,8 @@ export default {
               type: 'flat',
               value: 5,
               min: 0
-            }
+            },
+
           ]
         },
         {
@@ -364,36 +431,47 @@ export default {
           ]
         },
         {
-          brand: "adidas",
+          brand: "Adidas",
           min: 300,
           value: 15
         },
         {
-          brand: "rucha",
+          brand: "Rucha",
           min: 100,
           value: 5
         },
 
       ],
       shoppingCart: [],
-      search: ''
+      search: '',
+      discountGroups: [
+        {
+          brands: ['Shein', 'Rucha', 'Dell', 'Adidas'],
+          quantity: 3,
+          value: 5,
+          min: 400
+        }
+      ]
 
     }
   },
+  updated(){
+
+    console.log(this.getTheGroupDiscount())
+  },
+
   methods: {
     addCart(product) {
-      // console.log(this.searchProduct(), 'hola')
+      
       var product = { ...product }
       var productFound = this.shoppingCart.find(productBag => product.name == productBag.name)
-      // console.log(productFound)
-
       if (productFound) {
         productFound.quantity++
         return
       }
       product.quantity = 1
       product.price = product.discountedPrice > 0 ? product.discountedPrice : product.price
-      console.log(product.price)
+      // console.log(product.price)
       this.shoppingCart = [product, ...this.shoppingCart]
     },
 
@@ -401,7 +479,6 @@ export default {
       return this.shoppingCart.length == 0
 
     },
-
 
     deleteCart(productToDelete) {
 
@@ -429,6 +506,28 @@ export default {
 
     },
 
+    openDropDownGroupDiscount(index) {
+      return this.showCurrentiIndex = index
+    },
+
+    isGroupDiscountAvailable(product) {
+      return this.discountGroups.find(group => group.brands.includes(product.brand)) ? true : false
+    },
+
+    getTheGroupDiscount() {
+      return this.discountGroups.map(group => {
+        let prodcuts = this.shoppingCart.filter(productCart => group.brands.includes(productCart.brand)).map(productCart => {
+          return productCart.brand
+        })
+
+        return prodcuts.filter((item, index) => {
+          return prodcuts.indexOf(item) === index;
+        })
+      })
+
+        // .find(group => group.brands.includes(productCart.brand))
+    },
+
     deleteAll() {
       return this.shoppingCart = []
     },
@@ -450,6 +549,7 @@ export default {
         .map(product => product.quantity * product.price)
         .reduce((acc, toPay) => acc + toPay, 0)
     },
+
 
     totalDiscount() {
 
@@ -536,7 +636,6 @@ export default {
         total: this.total(),
         subtotal: this.subtotal(),
         totalDiscount: this.totalDiscount()
-
       }
     },
 
