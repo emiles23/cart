@@ -104,7 +104,7 @@
                           <span>{{ discount.brand }}</span>
                           faltan <span class="font-extrabold"> ${{ discount.remainingForDiscount.toFixed(2) }}</span>
                         </span>
-                        <span v-else>
+                        <span v-else class="text-green-800" >
                           Se ha aplicado un descuento del
                           <span class=" text-red-500">{{ discount.value }}%</span>
                           por llevar <span class="font-extrabold"> ${{ discount.totalPaymentPerBrand.toFixed(2)
@@ -116,8 +116,8 @@
                     </ul>
 
                     <ul v-for="(discount, index) in discountGroups" :key="index">
-                      <li>
-                        <span>
+                      <li >
+                        <span v-if="getDiscountGroupAmount() === 0">
                           Por la compra mínima de <span class="font-extrabold">${{ discount.min }}</span> incluyendo tres
                           (3)
                           productos distintos de las marcas
@@ -125,7 +125,13 @@
                           del
                           <span class="font-extrabold">{{ discount.value }}%</span> en tu factura total
                         </span>
+
+                        <span  v-else  class="text-green-800">
+                          Se ha aplicado un descuento del <span class=" text-red-500">{{ discount.value }}%</span> por llevar las marcas <span
+                            class="font-extrabold">{{ discount.brands.join(', ') }}</span>
+                        </span>
                       </li>
+                                              
                     </ul>
                   </div>
                   <!-- total and subtotal -->
@@ -133,12 +139,14 @@
                     <div>
                       <p>Subtotal actual:</p>
                       <p v-if="summary.totalDiscount" class="text-red-600">Descuento:</p>
+                      <!-- <p v-if="summary.discountGroup" class="text-red-600">Descuento Grupal:</p> -->
                       <p>Total</p>
                     </div>
                     <div>
                       <p>${{ summary.subtotal.toFixed(2) }}</p>
-                      <p>{{ getTheGroupDiscount() }}</p>
+                      <!-- <p>{{ getTheGroupDiscount() }}</p> -->
                       <p v-if="summary.totalDiscount" class="text-red-600">-${{ summary.totalDiscount.toFixed(2) }}</p>
+                      <!-- <p v-if="summary.discountGroup" class="text-red-600">-${{ summary.discountGroup.toFixed(2) }}</p> -->
                       <p class=" border-t border-slate-700">${{ summary.total.toFixed(2) }}</p>
                     </div>
 
@@ -339,7 +347,7 @@ export default {
         {
           name: 'Computadora OptiPlex personalizada de escritorio Intel Core i5-6500',
           brand: 'Dell',
-          price: 235,
+          price: 23,
           img: "img/store/img8.png"
         },
         {
@@ -377,13 +385,13 @@ export default {
         {
           name: 'Conair Plancha plana de cerámica doble, 1 pulgada',
           brand: 'Rucha',
-          price: 350,
+          price: 20,
           img: "img/store/img14.png"
         },
         {
           name: 'Titanium Ionic Hair Straightener, Professional Flat Iron For All Hair+ Types',
           brand: 'Rucha',
-          price: 185,
+          price: 10,
           img: "img/store/img15.png"
         },
 
@@ -455,14 +463,14 @@ export default {
 
     }
   },
-  updated(){
+  updated() {
 
-    console.log(this.getTheGroupDiscount())
+    console.log(this.getDiscountGroupAmount())
   },
 
   methods: {
     addCart(product) {
-      
+
       var product = { ...product }
       var productFound = this.shoppingCart.find(productBag => product.name == productBag.name)
       if (productFound) {
@@ -525,8 +533,21 @@ export default {
         })
       })
 
-        // .find(group => group.brands.includes(productCart.brand))
+      // .find(group => group.brands.includes(productCart.brand))
     },
+
+    getDiscountGroupAmount() {
+      let group = this.getTheGroupDiscount()[0]
+      let discountTotal = 0
+      let subtotal = this.subtotal()
+
+      discountTotal = this.discountGroups
+        .filter(discount => subtotal >= discount.min && group.length >= discount.quantity)
+        .map(discount => (subtotal * discount.value) / 100).reduce((acc, toPay) => acc + toPay, 0)
+
+      return discountTotal
+    },
+
 
     deleteAll() {
       return this.shoppingCart = []
@@ -552,16 +573,14 @@ export default {
 
 
     totalDiscount() {
-
       return this.getDiscountsApplied()
         .filter(discount => this.totalPerBrand(discount) >= discount.min)
         .map(discount => this.totalPerBrand(discount) * (discount.value / 100))
-        .reduce((acc, toPay) => acc + toPay, 0)
-
+        .reduce((acc, toPay) => acc + toPay, 0) + this.getDiscountGroupAmount()
     },
 
     total() {
-      return this.subtotal() - this.totalDiscount()
+      return this.subtotal() - this.totalDiscount() - this.getDiscountGroupAmount()
     },
 
     getPendingAmountToPayPerBrand(discount) {
@@ -635,7 +654,7 @@ export default {
       return {
         total: this.total(),
         subtotal: this.subtotal(),
-        totalDiscount: this.totalDiscount()
+        totalDiscount: this.totalDiscount(),
       }
     },
 
