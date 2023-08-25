@@ -101,10 +101,10 @@
                           <span>{{ discount.value }}%</span>
                           por llevar <span class="font-extrabold"> ${{ discount.min }}</span>
                           en la marca
-                          <span>{{ discount.brand }}</span>
+                          <span class="font-extrabold">{{ discount.brand }}</span>
                           faltan <span class="font-extrabold"> ${{ discount.remainingForDiscount.toFixed(2) }}</span>
                         </span>
-                        <span v-else class="text-green-800" >
+                        <span v-else class="text-green-800">
                           Se ha aplicado un descuento del
                           <span class=" text-red-500">{{ discount.value }}%</span>
                           por llevar <span class="font-extrabold"> ${{ discount.totalPaymentPerBrand.toFixed(2)
@@ -115,23 +115,24 @@
                       </li>
                     </ul>
 
-                    <ul v-for="(discount, index) in discountGroups" :key="index">
-                      <li >
-                        <span v-if="getDiscountGroupAmount() === 0">
-                          Por la compra mínima de <span class="font-extrabold">${{ discount.min }}</span> incluyendo tres
-                          (3)
+                    <ul v-for="(discount, index) in discountGroups" :key="index" class="pb-5">
+                      <li>                     
+                        <span v-if="isGroupDiscountApplicable(discount)" class="text-green-800">
+                          Se ha aplicado un descuento del <span class=" text-red-500">{{
+                            getDiscountGroupsRepresentation(discount)
+                          }}</span> por
+                          llevar las marcas <span class="font-extrabold">{{ discount.brands.join(', ') }}</span>
+                        </span>
+                        <span v-else >
+                          Por la compra mínima de <span class="font-extrabold">${{ discount.min }}</span> incluyendo {{
+                            discount.quantity }}
                           productos distintos de las marcas
                           <span class="font-extrabold">{{ discount.brands.join(', ') }}</span>, se aplicara un descuento
                           del
-                          <span class="font-extrabold">{{ discount.value }}%</span> en tu factura total
-                        </span>
-
-                        <span  v-else  class="text-green-800">
-                          Se ha aplicado un descuento del <span class=" text-red-500">{{ discount.value }}%</span> por llevar las marcas <span
-                            class="font-extrabold">{{ discount.brands.join(', ') }}</span>
+                          <span class="font-extrabold  text-red-400">{{ getDiscountGroupsRepresentation(discount)
+                          }}</span> en tu factura total
                         </span>
                       </li>
-                                              
                     </ul>
                   </div>
                   <!-- total and subtotal -->
@@ -143,6 +144,7 @@
                       <p>Total</p>
                     </div>
                     <div>
+                      <p>{{ getDiscountGroupAmount().toFixed(2) }}</p>                     
                       <p>${{ summary.subtotal.toFixed(2) }}</p>
                       <!-- <p>{{ getTheGroupDiscount() }}</p> -->
                       <p v-if="summary.totalDiscount" class="text-red-600">-${{ summary.totalDiscount.toFixed(2) }}</p>
@@ -216,12 +218,11 @@
                 <div class="text-center pb-4 h-20  font-medium text-slate-600">
                   <div>
                     <template v-if="isGroupDiscountAvailable(product)">
-                      <div class="text-gray-500">-5% por comprar
+                      <div class="text-gray-500">Descuento
                         <span @mouseover="openDropDownGroupDiscount(index)" @mouseleave="showCurrentiIndex = null"
                           class="bg-gray-200 text-gray-500  px-2 shadow-lg  rounded-full font-bold cursor-pointer hover:bg-gray-300">?</span>
 
-                        <ul v-if="showCurrentiIndex == index" v-for="(discount, index) in discountGroups" :key="index"
-                          class="
+                        <ul v-if="showCurrentiIndex == index" class="
                           absolute
                           text-gray-500 
                           right-0
@@ -238,16 +239,17 @@
                           focus:outline-none 
                           text-justify
                           p-3">
-                          <li>
-                            <span>
-                              Por la compra mínima de <span class="font-extrabold">${{ discount.min }}</span> incluyendo
-                              tres
-                              (3)
-                              productos distintos de las marcas
+                          <li v-for="(discount, index) in discountGroups" :key="index">
+                            <span v-if="discount.brands.includes(product.brand)">
+                              Por la compra mínima de <span class="font-extrabold">${{ discount.min }}</span>
+                              incluyendo {{ discount.quantity }} productos distintos de las marcas
                               <span class="font-extrabold">{{ discount.brands.join(', ') }}</span>, se aplicara un
-                              descuento
-                              del
-                              <span class="font-extrabold">{{ discount.value }}%</span> en tu factura total
+                              descuento de
+
+                              <span class="font-extrabold text-red-400">{{ getDiscountGroupsRepresentation(discount)
+                              }}</span>
+
+                              tu factura total
                             </span>
                           </li>
                         </ul>
@@ -334,14 +336,14 @@ export default {
         {
           name: '75 pulgadas, clase Crystal UHD, serie AU8000, 4K, UHD, HDR, Smart TV',
           brand: 'Samsung',
-          price: 950,
+          price: 500,
           img: "img/store/img6.png"
         },
 
         {
           name: '(AMD Ryzen 5 5600X, RTX 3060, 16GB 3600Mhz',
           brand: 'Dell',
-          price: 1499,
+          price: 300,
           img: "img/store/img7.png"
         },
         {
@@ -353,7 +355,7 @@ export default {
         {
           name: 'procesador Intel Core i7-11700F, GeForce RTX 3060, 32 GB de RAM, 1 TB ',
           brand: 'Dell',
-          price: 1165,
+          price: 600,
           img: "img/store/img9.png"
         },
 
@@ -400,7 +402,7 @@ export default {
       discounts: [
         {
           brand: "Samsung",
-          min: 600,
+          min: 1000,
           value: 10,
 
         },
@@ -426,7 +428,7 @@ export default {
         },
         {
           brand: "Dell",
-          min: 250,
+          min: 800,
           value: 12,
 
           products: [
@@ -454,10 +456,17 @@ export default {
       search: '',
       discountGroups: [
         {
-          brands: ['Shein', 'Rucha', 'Dell', 'Adidas'],
+          brands: ['Shein', 'Rucha', 'Adidas'],
           quantity: 3,
           value: 5,
           min: 400
+        },
+        {
+          brands: ['Samsung', 'Adidas', 'Dell'],
+          quantity: 2,
+          value: 200,
+          min: 1500,
+          type: 'flat',
         }
       ]
 
@@ -465,12 +474,13 @@ export default {
   },
   updated() {
 
-    console.log(this.getDiscountGroupAmount())
+    // console.log(this.getDiscountGroupAmount())
+    // console.log(this.brandAdded(discount))
   },
 
   methods: {
-    addCart(product) {
-
+    addCart(product) {   
+      console.log(this.getTheGroupDiscount())
       var product = { ...product }
       var productFound = this.shoppingCart.find(productBag => product.name == productBag.name)
       if (productFound) {
@@ -514,6 +524,12 @@ export default {
 
     },
 
+    deleteAll() {
+      return this.shoppingCart = []
+    },
+
+    // Discount Calculations
+
     openDropDownGroupDiscount(index) {
       return this.showCurrentiIndex = index
     },
@@ -521,6 +537,12 @@ export default {
     isGroupDiscountAvailable(product) {
       return this.discountGroups.find(group => group.brands.includes(product.brand)) ? true : false
     },
+
+
+    // discount.brands.includes(productBag.brand) 
+    // brandAdded(discount){
+    //   return this.shoppingCart.find(shoppin => shoppin.brand.includes(discount.brand)) ? true : false
+    // },
 
     getTheGroupDiscount() {
       return this.discountGroups.map(group => {
@@ -543,16 +565,33 @@ export default {
 
       discountTotal = this.discountGroups
         .filter(discount => subtotal >= discount.min && group.length >= discount.quantity)
-        .map(discount => (subtotal * discount.value) / 100).reduce((acc, toPay) => acc + toPay, 0)
-
+        .map(discount => {
+          if (discount.type === 'flat') {
+            return (discount.value)
+          }
+          else {
+            return (subtotal * discount.value) / 100
+          }
+        })
+        .reduce((acc, toPay) => acc + toPay, 0)
       return discountTotal
     },
 
-
-    deleteAll() {
-      return this.shoppingCart = []
+    isGroupDiscountApplicable(discount) {
+      let group = this.getTheGroupDiscount()[0]
+      let subtotal = this.subtotal()
+      return subtotal >= discount.min && group.length >= discount.quantity ? true : false
     },
 
+    totalDiscount() {
+      return this.getDiscountsApplied()
+        .filter(discount => this.totalPerBrand(discount) >= discount.min)
+        .map(discount => this.totalPerBrand(discount) * (discount.value / 100))
+        .reduce((acc, toPay) => acc + toPay, 0) + this.getDiscountGroupAmount()
+    },
+
+
+    // invoice calculations
     subtotal() {
       return this.shoppingCart.map(product => product.quantity * product.price)
         .reduce((acc, toPay) => acc + toPay, 0);
@@ -570,15 +609,6 @@ export default {
         .map(product => product.quantity * product.price)
         .reduce((acc, toPay) => acc + toPay, 0)
     },
-
-
-    totalDiscount() {
-      return this.getDiscountsApplied()
-        .filter(discount => this.totalPerBrand(discount) >= discount.min)
-        .map(discount => this.totalPerBrand(discount) * (discount.value / 100))
-        .reduce((acc, toPay) => acc + toPay, 0) + this.getDiscountGroupAmount()
-    },
-
     total() {
       return this.subtotal() - this.totalDiscount() - this.getDiscountGroupAmount()
     },
@@ -625,6 +655,19 @@ export default {
       }
       else {
         textDiscount += `${value}%`
+      }
+
+      return textDiscount
+    },
+
+    getDiscountGroupsRepresentation(discount) {
+      var textDiscount = '-'
+
+      if (discount?.type === 'flat') {
+        textDiscount += `$${discount.value}`
+      }
+      else {
+        textDiscount += `${discount.value}%`
       }
 
       return textDiscount
