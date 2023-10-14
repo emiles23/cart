@@ -1,0 +1,277 @@
+<template>
+  <div v-if="shoppingCartStore.show" class="
+      absolute 
+      right-0 
+      top-20 
+      w-96 
+      bg-slate-800 
+      max-h-screen-80 
+      z-10 
+      overflow-y-scroll">
+
+    <div v-if="elementCart()">
+      <h1 class="
+        text-slate-300  
+        text-base 
+        text-center 
+        py-6">Tu bolsa esta vacia
+      </h1>
+    </div>
+    <div v-if="!elementCart()" class=" relative z-10">
+      <div class="
+        fixed inset-0 
+        bg-gray-500 
+        bg-opacity-75 
+        transition-opacity">
+      </div>
+      <ModalCart>
+        <CartHeader />
+        <!-- products... -->
+        <div class="mt-8">
+          <CartProduct v-for="(product, index) in shoppingCartStore.products" :key="index" :product="product"
+            :index="index" />
+        </div>
+        <!-- end products... -->
+
+        <div class="
+          border-t 
+          border-gray-200
+          px-4 py-6 sm:px-6
+          text-justify
+          text-slate-600 text-sm">
+    
+          <div class="p-5 ">
+
+            <div v-if="discountsApplied">
+              <div v-for="(discount, index) in discountsApplied" :key="index" class="pb-4">
+                <span v-if="discount.remainingForDiscount > 0">
+                  Obten un descuento del
+                  <span>{{ discount.value }}%</span>
+                  por llevar <span class="font-extrabold"> ${{ discount.min }}</span>
+                  en la marca
+                  <span class="font-extrabold">{{ discount.brand }}</span>
+                  faltan <span class="font-extrabold"> ${{ discount.remainingForDiscount.toFixed(2) }}</span>
+                </span>
+                <span v-else class="text-green-800">
+                  Se ha aplicado un descuento del
+                  <span class=" text-red-500">{{ discount.value }}%</span>
+                  por llevar <span class="font-extrabold"> ${{ discount.totalPaymentPerBrand.toFixed(2)
+                  }}</span>
+                  en la marca
+                  <span class="font-extrabold">{{ discount.brand }}</span>
+                </span>
+              </div>
+            </div>
+
+            <div v-for="(discount, index) in discountGroups" :key="index" class="pb-5">
+              <div>
+                <span v-if="(discount)" class="text-green-800">
+                  Se ha aplicado un descuento del <span class=" text-red-500">{{
+                    getDiscountGroupsRepresentation(discount)
+                  }}</span> por
+                  llevar las marcas <span class="font-extrabold">{{ discount.brands.join(', ') }}</span>
+                </span>
+                <span v-else>
+                  Por la compra mínima de <span class="font-extrabold">${{ discount.min }}</span> incluyendo {{
+                    discount.quantity }}
+                  productos distintos de las marcas
+                  <span class="font-extrabold">{{ discount.brands.join(', ') }}</span>, se aplicara un descuento
+                  del
+                  <span class="font-extrabold  text-red-400">{{ getDiscountGroupsRepresentation(discount)
+                  }}</span> en tu factura total
+                </span>
+              </div>
+            </div>
+
+            <div v-for="(discount, index) in definitions.discountGroups" :key="index" class="pb-5">
+              <span v-if="isGroupDiscountApplicable(discount)" class="text-green-800 ">
+                Se ha aplicado un descuento del <span class=" text-red-500">{{
+                  definitions.getDiscountGroupsRepresentation(discount)
+                }}</span> por
+                llevar las marcas <span class="font-extrabold">{{ discount.brands.join(', ') }}</span>
+              </span>
+              <TextDiscountGroups v-else :discount="discount"/>
+            </div>
+          </div>
+
+          <!-- total and subtotal -->
+          <div v-if="!elementCart()" class="flex justify-between text-sm  font-medium">
+            <div>
+              <p>Subtotal actual:</p>
+              <p v-if="summary.totalDiscount" class="text-red-600">Descuento:</p>
+              <!-- <p v-if="summary.discountGroup" class="text-red-600">Descuento Grupal:</p> -->
+              <p>Total</p>
+            </div>
+            <div>
+              <!-- <p>{{ getDiscountGroupAmount().toFixed(2) }}</p> -->
+              <p>${{ summary.subtotal.toFixed(2) }}</p>
+              <!-- <p>{{ getTheGroupDiscount() }}</p> -->
+              <p v-if="summary.totalDiscount" class="text-red-600">-${{ summary.totalDiscount.toFixed(2) }}</p>
+              <!-- <p v-if="summary.discountGroup" class="text-red-600">-${{ summary.discountGroup.toFixed(2) }}</p> -->
+              <p class=" border-t border-slate-700">${{ summary.total.toFixed(2) }}</p>
+            </div>
+          </div>
+
+          <!-- <p class="mt-0.5 text-sm text-gray-500">Shipping and taxes calculated at checkout.</p> -->
+          <div class="mt-6 ">
+            <ButtonCheckoutCart />
+          </div>
+
+          <div class="mt-6 flex justify-center text-center text-sm text-gray-500">
+            <DeleteAllCart v-if="!elementCart()" @click="deleteAll()" />
+          </div>
+        </div>
+      </ModalCart>
+    </div>
+  </div>
+</template>
+
+<script>
+
+import Delete from "./icons/Delete.vue";
+import TextDiscountGroups from "./TextDiscountGroups.vue";
+import CartProduct from "./CartProduct.vue";
+import ModalCart from "./ModalCart.vue";
+import CartHeader from "./CartHeader.vue";
+import ButtonCheckoutCart from "./ButtonCheckoutCart.vue";
+import DeleteAllCart from "./DeleteAllCart.vue";
+import { shoppingCartStore } from "../store.js";
+import { definitions } from "../store.js";
+
+export default {
+
+  components: {
+    Delete,
+    TextDiscountGroups,
+    CartProduct,
+    ModalCart,
+    CartHeader,
+    ButtonCheckoutCart,
+    DeleteAllCart,
+
+  },
+
+  data() {
+    return {
+      shoppingCartStore,
+      definitions
+
+    }
+  },
+  methods: {
+
+    deleteAll() {
+      return shoppingCartStore.products = []
+    },
+
+    elementCart() {
+      return shoppingCartStore.products.length == 0
+    },
+
+    //  invoice calculations \\
+
+    subtotal() {
+      return shoppingCartStore.products.map(product => product.quantity * product.price)
+        .reduce((acc, toPay) => acc + toPay, 0);
+    },
+
+    total() {
+      return this.subtotal() - this.totalDiscount() - this.getDiscountGroupAmount()
+
+    },
+
+    getDiscountsApplied() {
+      return definitions.discounts.filter(discountedBrand => shoppingCartStore.products
+        .some(shoppingCartProduct => discountedBrand.brand === shoppingCartProduct.brand))
+    },
+
+    getPendingAmountToPayPerBrand(discount) {
+      return discount.min - this.totalPerBrand(discount)
+    },
+
+    totalPerBrand(discount) {
+
+      return shoppingCartStore.products
+        .filter(product => product.brand == discount.brand)
+        .map(product => product.quantity * product.price)
+        .reduce((acc, toPay) => acc + toPay, 0)
+    },
+
+    totalDiscount() {
+      return this.getDiscountsApplied()
+        .filter(discount => this.totalPerBrand(discount) >= discount.min)
+        .map(discount => this.totalPerBrand(discount) * (discount.value / 100))
+        .reduce((acc, toPay) => acc + toPay, 0) + this.getDiscountGroupAmount()
+
+    },
+
+    // discount in group
+
+    getTheGroupDiscount() {
+      return definitions.discountGroups.map(group => {
+        let prodcuts = shoppingCartStore.products.filter(productCart => group.brands.includes(productCart.brand)).map(productCart => {
+          return productCart.brand
+        })
+
+        return prodcuts.filter((item, index) => {
+          return prodcuts.indexOf(item) === index;
+        })
+      })
+
+      // .find(group => group.brands.includes(productCart.brand))
+    },
+
+    getDiscountGroupAmount() {
+      let group = this.getTheGroupDiscount()[0]
+      let discountTotal = 0
+      let subtotal = this.subtotal()
+
+      discountTotal = definitions.discountGroups
+        .filter(discount => subtotal >= discount.min && group.length >= discount.quantity)
+        .map(discount => {
+          if (discount.type === 'flat') {
+            return (discount.value)
+          }
+          else {
+            return (subtotal * discount.value) / 100
+          }
+        })
+        .reduce((acc, toPay) => acc + toPay, 0)
+      return discountTotal
+    },
+
+    // BOOLEANO
+
+    isGroupDiscountApplicable(discount) {
+      let group = this.getTheGroupDiscount()[0]
+      let subtotal = this.subtotal()
+      return subtotal >= discount.min && group.length >= discount.quantity ? true : false
+    },
+  },
+
+  computed: {
+
+    discountsApplied() {
+      return this.getDiscountsApplied().map(discount => {
+        discount.remainingForDiscount = this.getPendingAmountToPayPerBrand(discount)
+        discount.totalPaymentPerBrand = this.totalPerBrand(discount)
+        return discount
+      })
+    },
+
+    summary() {
+      return {
+        total: this.total(),
+        subtotal: this.subtotal(),
+        totalDiscount: this.totalDiscount(),
+      }
+    },
+  }
+}
+</script>
+
+<style scoped>
+.max-h-screen-80 {
+  max-height: 85vh;
+}
+</style>
