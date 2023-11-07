@@ -39,6 +39,7 @@ import Sun from "../components/icons/Sun.vue";
 import Moon from "../components/icons/Moon.vue";
 
 import { shoppingCartStore } from "../store.js";
+import { darkMode } from "../store.js";
 
 export default {
   components: {
@@ -50,23 +51,24 @@ export default {
   data() {
     return {
       shoppingCartStore: shoppingCartStore,
-      isDark: false,
+      darkMode,
+      // isDark: false,
     }
   },
 
   methods: {
     changeDarkMode() {
       console.log('hola')
-      this.isDark = !this.isDark
-      localStorage.isDark = this.isDark
-      this.$emit('onChangeDarkMode',  this.isDark )
+      darkMode.isDark = !darkMode.isDark
+      localStorage.isDark = darkMode.isDark
+      // this.$emit('onChangeDarkMode',  darkMode.isDark )
     },
   },
 
   mounted() {
     if (localStorage.isDark !== undefined) {
-      this.isDark = JSON.parse(localStorage.isDark)
-      this.$emit('onChangeDarkMode',  this.isDark )
+      darkMode.isDark = JSON.parse(localStorage.isDark)
+      // this.$emit('onChangeDarkMode',  this.isDark )
     }
 
   }
