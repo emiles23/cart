@@ -1,16 +1,21 @@
 <template>
- <Main>
-    <div class="min-h-screen">
-      <!-- product -->
-      <div class="bg-white text-sm">
-        <div class="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
-          <h2 class="text-2xl font-bold tracking-tight text-gray-900">
-            Productos disponible
-          </h2>
-          <div class="mt-6 grid grid-cols-1 gap-x-10 gap-y-20 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
-            <ProductCard v-for="(product, index) in productsWithDicount" :key="index" :product="product"
-              :discountGroups="discountGroups" :getProductDiscount="getProductDiscount(product)" />
-          </div>
+  <Main>
+    <!-- product -->
+    <div class="bg-white  dark:bg-gray-900 text-sm">
+      <div class="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
+        <h2 class="text-2xl font-bold tracking-tight text-gray-900">
+          Productos disponible
+        </h2>
+        <!-- <button @click="changeDarkMode">
+          noche
+        </button> -->
+        <div class="mt-6 grid grid-cols-1 gap-x-10 gap-y-20 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
+          <ProductCard v-for="(product, index) in productsWithDicount" :key="index" :product="product"
+            :discountGroups="discountGroups" :getProductDiscount="getProductDiscount(product)" class="
+            dark:bg-gray-800 
+            px-2
+            py-3 
+            rounded-xl" />
         </div>
       </div>
     </div>
@@ -39,7 +44,7 @@ export default {
       definitions,
       shoppingCartStore,
       searchEngine,
-      
+
       products: [
         {
           name: 'Camisa sin manga',
@@ -144,6 +149,13 @@ export default {
   },
 
   methods: {
+
+
+    // changeDarkMode() {
+    //   document.documentElement.classList.toggle("dark")
+    // },
+
+
     getDiscountProductObject(product) {
       return definitions.discounts.find(discount => discount.brand == product.brand)?.products
         ?.find(productDiscount => productDiscount.name == product.name)

@@ -1,10 +1,11 @@
 <template>
-  <div class="font-medium">
-    <NavBar />
+  <div class="font-medium" :class="{'dark': isDark}">
+    <NavBar @onChangeDarkMode="(value) => isDark = value" />
     <ShoppingCart />
-    <slot>
-
-    </slot>
+    <div class="min-h-screen bg-white">
+      <slot></slot>
+    </div>
+    
   </div>
 </template>
 
@@ -19,6 +20,12 @@ export default {
     NavBar,
     ShoppingCart
   },
+
+  data(){
+    return{
+      isDark:false
+    }
+  }
 
 
 }
