@@ -82,31 +82,6 @@ export const definitions = reactive({
       value: 5,
       min: 400
     },
-
-    {
-      brands: ['Shein', 'Rucha', 'Adidas'],
-      quantity: 3,
-      value: 5,
-      min: 200
-    },
-    {
-      brands: ['Shein', 'Rucha', 'Adidas'],
-      quantity: 3,
-      value: 5,
-      min: 200
-    },
-    {
-      brands: ['Shein', 'Rucha', 'Adidas'],
-      quantity: 3,
-      value: 5,
-      min: 200
-    },
-    {
-      brands: ['Shein', 'Rucha', 'Adidas'],
-      quantity: 3,
-      value: 5,
-      min: 200
-    },
     {
       brands: ['Samsung', 'Adidas', 'Shein'],
       quantity: 2,
@@ -133,3 +108,17 @@ export const definitions = reactive({
 export const searchEngine = reactive({
   search: '',
 })
+
+export const darkMode = reactive({  
+  isDark:false
+})
+
+// export const darkMode = reactive({  
+//   dark(){
+//     const changeDarkMode = () => {
+//       document.documentElement.classList.toggle("dark")
+//     }
+//   }
+// })
+
+

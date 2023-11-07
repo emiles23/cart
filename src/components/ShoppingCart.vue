@@ -1,17 +1,15 @@
 <template>
-  <div v-if="shoppingCartStore.show" class="
-      absolute 
-      right-0 
-      top-20 
-      w-96 
-      bg-slate-800 
-      max-h-screen-80 
-      z-10 
-      overflow-y-scroll">
-
-    <div v-if="elementCart()">
+  <div v-if="shoppingCartStore.show">
+    <div v-if="elementCart()" class="
+        drop-shadow-md      
+        absolute 
+        right-0 
+        top-20 
+        w-96 
+       bg-white
+        z-10 ">
       <h1 class="
-        text-slate-300  
+        text-gray-500
         text-base 
         text-center 
         py-6">Tu bolsa esta vacia
@@ -25,80 +23,79 @@
         transition-opacity">
       </div>
       <ModalCart>
-        <CartHeader />
+        <CartHeader class="mt-4" />
         <!-- products... -->
-        <div class="mt-8">
+        <div class="mt-3">
           <CartProduct v-for="(product, index) in shoppingCartStore.products" :key="index" :product="product"
             :index="index" />
         </div>
         <!-- end products... -->
-
+        <!-- discounts -->
         <div class="
           border-t 
           border-gray-200
-          px-4 py-6 sm:px-6
+          px-4
+          py-6 
+          sm:px-6
           text-justify
-          text-slate-600 text-sm">
-    
-          <div class="p-5 ">
-
-            <div v-if="discountsApplied">
-              <div v-for="(discount, index) in discountsApplied" :key="index" class="pb-4">
-                <span v-if="discount.remainingForDiscount > 0">
-                  Obten un descuento del
-                  <span>{{ discount.value }}%</span>
-                  por llevar <span class="font-extrabold"> ${{ discount.min }}</span>
-                  en la marca
-                  <span class="font-extrabold">{{ discount.brand }}</span>
-                  faltan <span class="font-extrabold"> ${{ discount.remainingForDiscount.toFixed(2) }}</span>
-                </span>
-                <span v-else class="text-green-800">
-                  Se ha aplicado un descuento del
-                  <span class=" text-red-500">{{ discount.value }}%</span>
-                  por llevar <span class="font-extrabold"> ${{ discount.totalPaymentPerBrand.toFixed(2)
-                  }}</span>
-                  en la marca
-                  <span class="font-extrabold">{{ discount.brand }}</span>
-                </span>
-              </div>
-            </div>
-
-            <div v-for="(discount, index) in discountGroups" :key="index" class="pb-5">
-              <div>
-                <span v-if="(discount)" class="text-green-800">
-                  Se ha aplicado un descuento del <span class=" text-red-500">{{
-                    getDiscountGroupsRepresentation(discount)
-                  }}</span> por
-                  llevar las marcas <span class="font-extrabold">{{ discount.brands.join(', ') }}</span>
-                </span>
-                <span v-else>
-                  Por la compra mínima de <span class="font-extrabold">${{ discount.min }}</span> incluyendo {{
-                    discount.quantity }}
-                  productos distintos de las marcas
-                  <span class="font-extrabold">{{ discount.brands.join(', ') }}</span>, se aplicara un descuento
-                  del
-                  <span class="font-extrabold  text-red-400">{{ getDiscountGroupsRepresentation(discount)
-                  }}</span> en tu factura total
-                </span>
-              </div>
-            </div>
-
-            <div v-for="(discount, index) in definitions.discountGroups" :key="index" class="pb-5">
-              <span v-if="isGroupDiscountApplicable(discount)" class="text-green-800 ">
-                Se ha aplicado un descuento del <span class=" text-red-500">{{
-                  definitions.getDiscountGroupsRepresentation(discount)
-                }}</span> por
-                llevar las marcas <span class="font-extrabold">{{ discount.brands.join(', ') }}</span>
+          text-slate-600 
+          text-sm
+          ">
+          <div v-if="discountsApplied">
+            <div v-for="(discount, index) in discountsApplied" :key="index" class="pb-4">
+              <span v-if="discount.remainingForDiscount > 0">
+                Obten un descuento del
+                <span>{{ discount.value }}%</span>
+                por llevar <span class="font-extrabold"> ${{ discount.min }}</span>
+                en la marca
+                <span class="font-extrabold">{{ discount.brand }}</span>
+                faltan <span class="font-extrabold"> ${{ discount.remainingForDiscount.toFixed(2) }}</span>
               </span>
-              <TextDiscountGroups v-else :discount="discount"/>
+              <span v-else class="text-green-800">
+                Se ha aplicado un descuento del
+                <span class=" text-red-500">{{ discount.value }}%</span>
+                por llevar <span class="font-extrabold"> ${{ discount.totalPaymentPerBrand.toFixed(2)
+                }}</span>
+                en la marca
+                <span class="font-extrabold">{{ discount.brand }}</span>
+              </span>
             </div>
           </div>
 
+          <div v-for="(discount, index) in definitions.discountGroups" :key="index" class="pb-5">
+            <span v-if="isGroupDiscountApplicable(discount)" class="text-green-800 ">
+              Se ha aplicado un descuento del <span class=" text-red-500">{{
+                definitions.getDiscountGroupsRepresentation(discount)
+              }}</span> por
+              llevar las marcas <span class="font-extrabold">{{ discount.brands.join(', ') }}</span>
+            </span>
+            <TextDiscountGroups v-else :discount="discount" />
+          </div>
           <!-- total and subtotal -->
-          <div v-if="!elementCart()" class="flex justify-between text-sm  font-medium">
+        </div>
+        <!-- total -->
+        <div class="
+          fixed 
+          w-96
+          py-6  
+          right-0    
+          px-9 
+          bottom-0 
+          bg-white z-20
+          shadow-xl 
+          border-t 
+          border-gray-200">
+          <div v-if="!elementCart()" class="
+            flex 
+            justify-between 
+            text-sm  
+            font-medium">
             <div>
               <p>Subtotal actual:</p>
-              <p v-if="summary.totalDiscount" class="text-red-600">Descuento:</p>
+              <p v-if="summary.totalDiscount" class="
+              text-red-600">
+                Descuento:
+              </p>
               <!-- <p v-if="summary.discountGroup" class="text-red-600">Descuento Grupal:</p> -->
               <p>Total</p>
             </div>
@@ -108,21 +105,33 @@
               <!-- <p>{{ getTheGroupDiscount() }}</p> -->
               <p v-if="summary.totalDiscount" class="text-red-600">-${{ summary.totalDiscount.toFixed(2) }}</p>
               <!-- <p v-if="summary.discountGroup" class="text-red-600">-${{ summary.discountGroup.toFixed(2) }}</p> -->
-              <p class=" border-t border-slate-700">${{ summary.total.toFixed(2) }}</p>
+              <p class=" 
+              border-t 
+              border-slate-700">
+                ${{ summary.total.toFixed(2) }}
+              </p>
             </div>
           </div>
-
           <!-- <p class="mt-0.5 text-sm text-gray-500">Shipping and taxes calculated at checkout.</p> -->
           <div class="mt-6 ">
             <ButtonCheckoutCart />
           </div>
 
-          <div class="mt-6 flex justify-center text-center text-sm text-gray-500">
+          <div class="
+            mt-6 
+            flex 
+            justify-center 
+            text-center 
+            text-sm 
+          text-gray-500">
             <DeleteAllCart v-if="!elementCart()" @click="deleteAll()" />
           </div>
         </div>
       </ModalCart>
     </div>
+
+
+
   </div>
 </template>
 

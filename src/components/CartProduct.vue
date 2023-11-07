@@ -2,12 +2,12 @@
     <div class="flow-root">
         <ul role="list">
             <li :class="index > 0 ? 'border-t border-gray-200' : ''" class="flex py-8 mt-4">
-                <div class="h-24 w-24 flex-shrink-0 border border-gray-200 overflow-hidden rounded-md">
+                <div class="h-12 w-12 flex-shrink-0 border border-gray-200 overflow-hidden">
                     <img :src="product.img" alt="" class="h-full w-full object-cover object-center">
                 </div>
                 <div class="ml-4 flex flex-1 flex-col">
-                    <div class="flex justify-between w-64 text-sm font-medium text-gray-900">
-                        <h3>
+                    <div class="flex justify-between gap-12 text-justify text-sm font-medium text-gray-900">
+                        <h3 class=" ">
                             <a href="#">{{ product.name }}</a>
                         </h3>
                         <div class="text-center text-slate-600">
@@ -24,7 +24,7 @@
                             </span>
                         </div>
                     </div>
-                    <p class="mt-1 text-sm text-gray-500 capitalize">{{ product.brand }}</p>
+                    <p class="mt-1 text-sm text-gray-500 dark:text-gray-50 capitalize">{{ product.brand }}</p>
                     <div class="flex flex-1 items-end justify-between text-sm">
                         <p class="text-gray-500">Qty {{ product.quantity }}</p>
                         <div class="flex gap-7">
@@ -78,7 +78,5 @@ export default {
 
         },
     }
-
-
 }
 </script>

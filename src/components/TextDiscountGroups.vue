@@ -34,21 +34,5 @@ export default {
       definitions
     }
   },
-
-  // methods: {
-  //   getDiscountGroupsRepresentation(discount) {
-  //     var textDiscount = '-'
-
-  //     if (discount?.type === 'flat') {
-  //       textDiscount += `$${discount.value}`
-  //     }
-  //     else {
-  //       textDiscount += `${discount.value}%`
-  //     }
-
-  //     return textDiscount
-  //   },
-
-  // }
 }
 </script>

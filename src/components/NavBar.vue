@@ -5,28 +5,70 @@
     </div>
     <ButtonCart @click="shoppingCartStore.show = ! shoppingCartStore.show" />
   </div> -->
-
-  <div class="flex items-center justify-end gap-20 pr-10 w-full h-20 bg-slate-900 ">
+  <!-- drop-shadow-md -->
+  <div class="  
+    flex 
+    items-center 
+    justify-end 
+    gap-12 pr-10 
+    w-full h-20 
+    shadow-xl 
+    border  
+    dark:bg-gray-900 
+    bg-white 
+    text-black 
+    border-gray-200       
+    ">
     <InputSearch />
-    <ButtonCart @click="shoppingCartStore.show = ! shoppingCartStore.show" />
+    <button @click="changeDarkMode" >
+      <Sun />
+    </button>
+
+    <Moon />
+    <button @click="shoppingCartStore.show = !shoppingCartStore.show" class="flex gap-2 ">
+      <ShoppingBag class="text-gray-500 hover:text-gray-600 drop-shadow-md"></ShoppingBag>0
+    </button>
   </div>
 </template>
 
 <script>
 
 import InputSearch from "../components/InputSearch.vue";
-import ButtonCart from "../components/ButtonCart.vue";
+import ShoppingBag from "../components/icons/ShoppingBag.vue";
+import Sun from "../components/icons/Sun.vue";
+import Moon from "../components/icons/Moon.vue";
+
 import { shoppingCartStore } from "../store.js";
 
 export default {
   components: {
     InputSearch,
-    ButtonCart,
+    ShoppingBag,
+    Sun,
+    Moon
   },
   data() {
     return {
-      shoppingCartStore: shoppingCartStore
+      shoppingCartStore: shoppingCartStore,
+      isDark: false,
     }
+  },
+
+  methods: {
+    changeDarkMode() {
+      console.log('hola')
+      this.isDark = !this.isDark
+      localStorage.isDark = this.isDark
+      this.$emit('onChangeDarkMode',  this.isDark )
+    },
+  },
+
+  mounted() {
+    if (localStorage.isDark !== undefined) {
+      this.isDark = JSON.parse(localStorage.isDark)
+      this.$emit('onChangeDarkMode',  this.isDark )
+    }
+
   }
 }
 </script>
