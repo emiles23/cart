@@ -18,6 +18,12 @@ export const shoppingCartStore = reactive({
     shoppingCartStore.products = [product, ...shoppingCartStore.products]
     // shoppingCartStore.products = shoppingCartStore.products
   },
+
+  totalQty(){
+    return shoppingCartStore.products.map(product => product.quantity )
+    .reduce((acc, qty) => acc + qty, 0);
+
+  },
 })
 
 export const definitions = reactive({
