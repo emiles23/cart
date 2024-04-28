@@ -20,13 +20,24 @@
     border-gray-200       
     ">
     <InputSearch />
-    <button @click="changeDarkMode" >
-      <Sun />
+    <button @click="changeDarkMode">
+      <Moon v-if="darkMode.isDark" />
+      <Sun v-else />
     </button>
 
-    <Moon />
+
     <button @click="shoppingCartStore.show = !shoppingCartStore.show" class="flex gap-2 ">
-      <ShoppingBag class="text-gray-500 hover:text-gray-600 drop-shadow-md"></ShoppingBag>0
+      <ShoppingBag class="text-gray-500
+         dark:text-gray-300 
+         hover:text-gray-600 
+         drop-shadow-md">\
+      </ShoppingBag>
+      <span class="
+        dark:text-gray-300 
+        hover:text-gray-600
+        text-gray-500 ">
+        {{ shoppingCartStore.totalQty() }}
+      </span>
     </button>
   </div>
 </template>
