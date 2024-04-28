@@ -1,18 +1,17 @@
 <template>
-  <div class="text-gray-500">
+  <div class=" ">
     <div class="
-        absolute
-        text-gray-500 
+        ring-black
+        bg-white 
+        dark:bg-gray-800
         right-0
         z-10 
         mt-2 
         w-56 
         origin-top-right 
         rounded-md 
-        bg-white 
         shadow-lg 
-        ring-1 
-        ring-black
+        ring-1       
         ring-opacity-5 
         focus:outline-none 
         text-justify

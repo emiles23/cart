@@ -1,5 +1,5 @@
 <template>
-  <div  class="text-gray-500">
+  <div  class="text-gray-500  dark:text-gray-400">
     - Por la compra mínima de <span class="font-extrabold">${{ discount.min
     }}</span>
     incluyendo {{ discount.quantity }} productos distintos de las marcas

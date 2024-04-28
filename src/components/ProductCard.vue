@@ -26,17 +26,17 @@
         gap-7 
         capitalize">
       <div>
-        <p class=" text-gray-700 ">
+        <p class=" text-gray-700 dark:text-gray-300 ">
           {{ product.name }}
         </p>
-        <p class="mt-5 text-gray-500 ">
+        <p class="mt-5 text-gray-500 dark:text-gray-400 ">
           {{ product.brand }}
         </p>
       </div>
       <div class="flex flex-col gap-y-3   ">
         <template v-if="isGroupDiscountAvailable(product)">
           <div class="flex gap-2">
-            <h1 class="text-gray-500">Descuento</h1>
+            <h1 class="text-gray-500 dark:text-gray-300">Descuento</h1>
             <Question @mouseover="showDiscountDropDown = true" @mouseleave="showDiscountDropDown = false" class="
                 col-span-3 
                 flex 
@@ -62,7 +62,7 @@
           </DropDown>
         </template>
 
-        <div class="flex flex-col">
+        <div class="flex flex-col dark:text-gray-300">
           <div v-if="product.productDiscount" class="flex justify-center gap-4">
             <span :class="product.productDiscount ? 'line-through decoration text-gray-400' : ''">
               ${{ product.price }}
@@ -88,6 +88,7 @@
     </div>
     <h1 @click="shoppingCartStore.add(product)" class="
       text-center
+      dark:text-sky-400
       text-zinc-950
       hover:text-zinc-700
       cursor-pointer "> Agregar al Carrito

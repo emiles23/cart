@@ -4,12 +4,14 @@
         drop-shadow-md      
         absolute 
         right-0 
-        top-20 
-        w-96 
-       bg-white
+        top-20
+        w-96   
         z-10 ">
       <h1 class="
-        text-gray-500
+        text-secondary-600
+        bg-primary-50
+        dark:bg-secondary-900
+        dark:text-primary-300
         text-base 
         text-center 
         py-6">Tu bolsa esta vacia
@@ -18,7 +20,7 @@
     <div v-if="!elementCart()" class=" relative z-10">
       <div class="
         fixed inset-0 
-        bg-gray-500 
+        bg-secondary-800
         bg-opacity-75 
         transition-opacity">
       </div>
@@ -31,17 +33,19 @@
         </div>
         <!-- end products... -->
         <!-- discounts -->
-        <div class="
+        <div class="         
+          text-secondary-600 
+          dark:text-secondary-400
+          border-primary-200
+          dark:border-secondary-500
           border-t 
-          border-gray-200
           px-4
           py-6 
           sm:px-6
-          text-justify
-          text-slate-600 
+          text-justify      
           text-sm
           ">
-          <div v-if="discountsApplied">
+          <div v-if="discountsApplied" class="text-secondary-600 dark:text-secondary-400">
             <div v-for="(discount, index) in discountsApplied" :key="index" class="pb-4">
               <span v-if="discount.remainingForDiscount > 0">
                 Obten un descuento del
@@ -51,7 +55,7 @@
                 <span class="font-extrabold">{{ discount.brand }}</span>
                 faltan <span class="font-extrabold"> ${{ discount.remainingForDiscount.toFixed(2) }}</span>
               </span>
-              <span v-else class="text-green-800">
+              <span v-else class="text-tertiary-700 dark:text-tertiary-500">
                 Se ha aplicado un descuento del
                 <span class=" text-red-500">{{ discount.value }}%</span>
                 por llevar <span class="font-extrabold"> ${{ discount.totalPaymentPerBrand.toFixed(2)
@@ -63,7 +67,7 @@
           </div>
 
           <div v-for="(discount, index) in definitions.discountGroups" :key="index" class="pb-5">
-            <span v-if="isGroupDiscountApplicable(discount)" class="text-green-800 ">
+            <span v-if="isGroupDiscountApplicable(discount)" class="text-tertiary-700 dark:text-tertiary-500">
               Se ha aplicado un descuento del <span class=" text-red-500">{{
                 definitions.getDiscountGroupsRepresentation(discount)
               }}</span> por
@@ -81,33 +85,37 @@
           right-0    
           px-9 
           bottom-0 
-          bg-white z-20
+          z-20            
           shadow-xl 
           border-t 
-          border-gray-200">
+          border-primary-300
+          dark:border-secondary-500
+          bg-white
+          dark:bg-secondary-900
+          ">
           <div v-if="!elementCart()" class="
             flex 
             justify-between 
             text-sm  
             font-medium">
             <div>
-              <p>Subtotal actual:</p>
+              <p class="text-secondary-800 dark:text-primary-300">Subtotal actual:</p>
               <p v-if="summary.totalDiscount" class="
               text-red-600">
                 Descuento:
               </p>
               <!-- <p v-if="summary.discountGroup" class="text-red-600">Descuento Grupal:</p> -->
-              <p>Total</p>
+              <p class="text-gray-800 dark:text-gray-300">Total</p>
             </div>
             <div>
               <!-- <p>{{ getDiscountGroupAmount().toFixed(2) }}</p> -->
-              <p>${{ summary.subtotal.toFixed(2) }}</p>
+              <p class="text-secondary-800 dark:text-primary-300">${{ summary.subtotal.toFixed(2) }}</p>
               <!-- <p>{{ getTheGroupDiscount() }}</p> -->
               <p v-if="summary.totalDiscount" class="text-red-600">-${{ summary.totalDiscount.toFixed(2) }}</p>
               <!-- <p v-if="summary.discountGroup" class="text-red-600">-${{ summary.discountGroup.toFixed(2) }}</p> -->
-              <p class=" 
+              <p class=" text-secondary-800 dark:text-primary-300
               border-t 
-              border-slate-700">
+              border-primary-300 dark:border-secondary-500">
                 ${{ summary.total.toFixed(2) }}
               </p>
             </div>
@@ -123,7 +131,7 @@
             justify-center 
             text-center 
             text-sm 
-          text-gray-500">
+           text-secondary-500">
             <DeleteAllCart v-if="!elementCart()" @click="deleteAll()" />
           </div>
         </div>
