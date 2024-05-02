@@ -111,9 +111,6 @@ export const definitions = reactive({
   },
 })
 
-export const searchEngine = reactive({
-  search: '',
-})
 
 export const darkMode = reactive({  
   isDark:false

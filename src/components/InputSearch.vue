@@ -4,7 +4,7 @@
       <Search class="absolute left-2 top-2 h-5 w-5 text-gray-400" />
       <!-- <Close  class="absolute right-2 top-1 h-4 w-4 text-gray-900"/> -->
       <!-- v-model="search" -->
-      <input v-model="searchEngine.search" id="search" name="search" placeholder="Buscar por nombre" type="search" class="
+      <input v-model="search" id="search" name="search" placeholder="Buscar por nombre" type="search" class="
         pl-8
         pr-3
         py-2
@@ -31,20 +31,24 @@
 
 import Search from "../components/icons/Search.vue";
 // import Close from "../components/icons/Close.vue";
-import { searchEngine } from "../store"
+import { useSearchEngineStore } from "../store/searchEngine.js"
+import { mapWritableState } from 'pinia'
 
 export default {
 
   components: {
     Search,
     // Close
+    
   },
 
   data() {
     return {
 
-      searchEngine
     }
-  }
+  },
+   computed:{
+    ...mapWritableState(useSearchEngineStore, ['search']),
+   }
 }
 </script>

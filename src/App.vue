@@ -28,7 +28,8 @@ import ProductCard from "./components/ProductCard.vue";
 import Main from "./layout/Main.vue";
 import { shoppingCartStore } from "./store.js";
 import { definitions } from "./store.js";
-import { searchEngine } from "./store.js";
+import { useSearchEngineStore } from "./store/searchEngine.js"
+import { mapState } from 'pinia'
 
 export default {
   components: {
@@ -43,7 +44,7 @@ export default {
       showCurrentiIndex: null,
       definitions,
       shoppingCartStore,
-      searchEngine,
+
 
       products: [
         {
@@ -197,14 +198,17 @@ export default {
   },
 
   computed: {
+
+    ...mapState(useSearchEngineStore, ['search']),
     productsWithDicount() {
-      return this.products.filter(product => product.name.toLowerCase().includes(searchEngine.search.toLowerCase())).map(product => {
+      return this.products.filter(product => product.name.toLowerCase().includes(this.search.toLowerCase())).map(product => {
         product.discountedPrice = this.getDiscountedPrice(product)
         product.productDiscount = this.getProductDiscount(product)
         product.discountRepresentation = this.getDiscountRepresentation(product)
         return product
       })
     },
+
   }
 
 }
