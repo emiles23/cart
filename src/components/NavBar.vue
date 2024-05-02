@@ -21,7 +21,7 @@
     ">
     <InputSearch />
     <button @click="changeDarkMode">
-      <Moon v-if="darkMode.isDark" />
+      <Moon v-if="isDark" />
       <Sun v-else />
     </button>
 
@@ -48,9 +48,12 @@ import InputSearch from "../components/InputSearch.vue";
 import ShoppingBag from "../components/icons/ShoppingBag.vue";
 import Sun from "../components/icons/Sun.vue";
 import Moon from "../components/icons/Moon.vue";
-
 import { shoppingCartStore } from "../store.js";
-import { darkMode } from "../store.js";
+
+// Pinia store
+import { mapWritableState } from 'pinia'
+import { useDarkModeStore } from "../store/darkMode.js"
+
 
 export default {
   components: {
@@ -62,26 +65,28 @@ export default {
   data() {
     return {
       shoppingCartStore: shoppingCartStore,
-      darkMode,
-      // isDark: false,
     }
   },
 
   methods: {
     changeDarkMode() {
       console.log('hola')
-      darkMode.isDark = !darkMode.isDark
-      localStorage.isDark = darkMode.isDark
-      // this.$emit('onChangeDarkMode',  darkMode.isDark )
+      this.isDark = !this.isDark
+      localStorage.isDark = this.isDark
+      // this.$emit('onChangeDarkMode',  this.isDark )
     },
   },
 
   mounted() {
     if (localStorage.isDark !== undefined) {
-      darkMode.isDark = JSON.parse(localStorage.isDark)
+      this.isDark = JSON.parse(localStorage.isDark)
       // this.$emit('onChangeDarkMode',  this.isDark )
     }
 
-  }
+  },
+
+  computed:{
+    ...mapWritableState(useDarkModeStore, ['isDark']),
+   }
 }
 </script>

@@ -1,5 +1,5 @@
 <template>
-  <div class="font-medium" :class="{'dark': darkMode.isDark }">
+  <div class="font-medium" :class="{'dark': isDark }">
     <!-- <NavBar @onChangeDarkMode="(value) => isDark = value" /> -->
     <NavBar />
     <ShoppingCart />
@@ -14,8 +14,11 @@
 
 import NavBar from "../components/NavBar.vue";
 import ShoppingCart from "../components/ShoppingCart.vue";
-import { darkMode } from "../store.js";
+// import { darkMode } from "../store.js";
 
+// Pinia store
+import { mapState } from 'pinia'
+import { useDarkModeStore } from "../store/darkMode.js"
 
 export default {
 
@@ -25,10 +28,13 @@ export default {
   },
 
   data(){
-    return{
-      darkMode
+    return{    
     }
-  }
+  },
+
+  computed:{
+    ...mapState(useDarkModeStore, ['isDark']),
+   }
 
 
 }
