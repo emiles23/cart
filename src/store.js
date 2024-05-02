@@ -111,17 +111,3 @@ export const definitions = reactive({
   },
 })
 
-
-export const darkMode = reactive({  
-  isDark:false
-})
-
-// export const darkMode = reactive({  
-//   dark(){
-//     const changeDarkMode = () => {
-//       document.documentElement.classList.toggle("dark")
-//     }
-//   }
-// })
-
-
