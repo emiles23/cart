@@ -1,7 +1,7 @@
 <template>
   <Main>
     <!-- product -->
-    <div class="bg-primary-100  dark:bg-secondary-1000 text-sm">
+    <div class="text-sm">
       <div class="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
         <h2 class="text-2xl font-bold tracking-tight text-gray-900">
           Productos disponible
