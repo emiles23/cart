@@ -11,7 +11,7 @@ export const useShoppingCartStoreStore = defineStore('shoppingCartStore', {
         add(product) {
             // console.log(this.getTheGroupDiscount())
             var product = { ...product }
-            var productFound = shoppingCartStore.products.find(productBag => product.name == productBag.name)
+            var productFound = this.products.find(productBag => product.name == productBag.name)
             if (productFound) {
                 productFound.quantity++
                 return
@@ -19,12 +19,12 @@ export const useShoppingCartStoreStore = defineStore('shoppingCartStore', {
 
             product.quantity = 1
             product.price = product.discountedPrice > 0 ? product.discountedPrice : product.price
-            shoppingCartStore.products = [product, ...shoppingCartStore.products]
+            this.products = [product, ...this.products]
             // shoppingCartStore.products = shoppingCartStore.products
         },
 
         totalQty() {
-            return shoppingCartStore.products.map(product => product.quantity)
+            return this.products.map(product => product.quantity)
                 .reduce((acc, qty) => acc + qty, 0);
 
         },

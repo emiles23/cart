@@ -67,7 +67,7 @@
                         text-sm">
                         <p class="text-secondary-500 dark:text-primary-300">Qty {{ product.quantity }}</p>
                         <div class="flex gap-7">
-                            <button @click="shoppingCartStore.add(product)" type="button" class="
+                            <button @click="add(product)" type="button" class="
                                 font-medium 
                                  text-tertiary-600
                                  hover:text-tertiary-700 
@@ -90,7 +90,10 @@
 <script>
 
 import Delete from "./icons/Delete.vue";
-import { shoppingCartStore } from "../store.js"
+
+//pinia
+import { mapWritableState, mapActions } from 'pinia'
+import { useShoppingCartStoreStore } from "../store/shoppingCartStore.js"
 
 export default {
     components: {
@@ -105,22 +108,22 @@ export default {
             default: 0,
         },
     },
-    data() {
-        return {
-            shoppingCartStore
-        }
-    },
-
+  
     methods: {
+        ...mapActions(useShoppingCartStoreStore, ['add']),
+            
         deleteCart(productToDelete) {
-
+            
             if (productToDelete.quantity > 1) {
                 productToDelete.quantity--
                 return
             }
-            shoppingCartStore.products = shoppingCartStore.products.filter((product) => product.name != productToDelete.name);
 
+            this.products = this.products.filter((product) => product.name != productToDelete.name);
         },
+    },
+    computed: {
+        ...mapWritableState(useShoppingCartStoreStore, ['products']),
     }
 }
 </script>

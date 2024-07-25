@@ -1,5 +1,5 @@
 <template>
-  <div v-if="shoppingCartStore.show">
+  <div v-if="show">
     <div v-if="elementCart()" class="
         drop-shadow-md      
         absolute 
@@ -28,7 +28,7 @@
         <CartHeader class="mt-4" />
         <!-- products... -->
         <div class="mt-3">
-          <CartProduct v-for="(product, index) in shoppingCartStore.products" :key="index" :product="product"
+          <CartProduct v-for="(product, index) in products" :key="index" :product="product"
             :index="index" />
         </div>
         <!-- end products... -->
@@ -152,10 +152,9 @@ import ModalCart from "./ModalCart.vue";
 import CartHeader from "./CartHeader.vue";
 import ButtonCheckoutCart from "./ButtonCheckoutCart.vue";
 import DeleteAllCart from "./DeleteAllCart.vue";
-import { shoppingCartStore } from "../store.js";
-
-import { mapState } from 'pinia'
-import { mapActions } from 'pinia'
+// pinia
+import { mapState,mapActions, mapWritableState  } from 'pinia'
+import { useShoppingCartStoreStore } from "../store/shoppingCartStore.js"
 import { useDefinitionsStore } from "../store/definitions.js"
 
 export default {
@@ -170,28 +169,22 @@ export default {
     DeleteAllCart,
 
   },
-
-  data() {
-    return {
-      shoppingCartStore,
-    }
-  },
   methods: {
 
     ...mapActions(useDefinitionsStore, ['getDiscountGroupsRepresentation']),
 
     deleteAll() {
-      return shoppingCartStore.products = []
+      return this.products = []
     },
 
     elementCart() {
-      return shoppingCartStore.products.length == 0
+      return this.products.length == 0
     },
 
     //  invoice calculations \\
 
     subtotal() {
-      return shoppingCartStore.products.map(product => product.quantity * product.price)
+      return this.products.map(product => product.quantity * product.price)
         .reduce((acc, toPay) => acc + toPay, 0);
     },
 
@@ -201,7 +194,7 @@ export default {
     },
 
     getDiscountsApplied() {
-      return this.discounts.filter(discountedBrand => shoppingCartStore.products
+      return this.discounts.filter(discountedBrand => this.products
         .some(shoppingCartProduct => discountedBrand.brand === shoppingCartProduct.brand))
     },
 
@@ -211,7 +204,7 @@ export default {
 
     totalPerBrand(discount) {
 
-      return shoppingCartStore.products
+      return this.products
         .filter(product => product.brand == discount.brand)
         .map(product => product.quantity * product.price)
         .reduce((acc, toPay) => acc + toPay, 0)
@@ -229,7 +222,7 @@ export default {
 
     getTheGroupDiscount() {
       return this.discountGroups.map(group => {
-        let prodcuts = shoppingCartStore.products.filter(productCart => group.brands.includes(productCart.brand)).map(productCart => {
+        let prodcuts = this.products.filter(productCart => group.brands.includes(productCart.brand)).map(productCart => {
           return productCart.brand
         })
 
@@ -272,6 +265,7 @@ export default {
   computed: {
 
     ...mapState(useDefinitionsStore, ['discountGroups', 'discounts']),
+    ...mapWritableState(useShoppingCartStoreStore, ['products','show']),
     discountsApplied() {
       return this.getDiscountsApplied().map(discount => {
         discount.remainingForDiscount = this.getPendingAmountToPayPerBrand(discount)

@@ -26,7 +26,7 @@
     </button>
 
 
-    <button @click="shoppingCartStore.show = !shoppingCartStore.show" class="flex gap-2 ">
+    <button @click="show = !show" class="flex gap-2 ">
       <ShoppingBag class="text-gray-500
          dark:text-gray-300 
          hover:text-gray-600 
@@ -36,7 +36,7 @@
         dark:text-gray-300 
         hover:text-gray-600
         text-gray-500 ">
-        {{ shoppingCartStore.totalQty() }}
+        {{ totalQty() }}
       </span>
     </button>
   </div>
@@ -48,10 +48,10 @@ import InputSearch from "../components/InputSearch.vue";
 import ShoppingBag from "../components/icons/ShoppingBag.vue";
 import Sun from "../components/icons/Sun.vue";
 import Moon from "../components/icons/Moon.vue";
-import { shoppingCartStore } from "../store.js";
 
 // Pinia store
-import { mapWritableState } from 'pinia'
+import { mapActions, mapWritableState } from 'pinia'
+import { useShoppingCartStoreStore } from "../store/shoppingCartStore.js"
 import { useDarkModeStore } from "../store/darkMode.js"
 
 
@@ -62,13 +62,10 @@ export default {
     Sun,
     Moon
   },
-  data() {
-    return {
-      shoppingCartStore: shoppingCartStore,
-    }
-  },
 
   methods: {
+    ...mapActions(useShoppingCartStoreStore, ['totalQty']),
+
     changeDarkMode() {
       console.log('hola')
       this.isDark = !this.isDark
@@ -87,6 +84,7 @@ export default {
 
   computed:{
     ...mapWritableState(useDarkModeStore, ['isDark']),
+    ...mapWritableState(useShoppingCartStoreStore, ['show']),
    }
 }
 </script>

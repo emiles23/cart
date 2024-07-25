@@ -1,30 +1,30 @@
 // store.js
 import { reactive } from 'vue'
 
-export const shoppingCartStore = reactive({
-  products: [],
-  show: false,
-  add(product) {
-    // console.log(this.getTheGroupDiscount())
-    var product = { ...product }
-    var productFound = shoppingCartStore.products.find(productBag => product.name == productBag.name)
-    if (productFound) {
-      productFound.quantity++
-      return
-    }
+// export const shoppingCartStore = reactive({
+//   products: [],
+//   show: false,
+//   add(product) {
+//     // console.log(this.getTheGroupDiscount())
+//     var product = { ...product }
+//     var productFound = shoppingCartStore.products.find(productBag => product.name == productBag.name)
+//     if (productFound) {
+//       productFound.quantity++
+//       return
+//     }
 
-    product.quantity = 1
-    product.price = product.discountedPrice > 0 ? product.discountedPrice : product.price
-    shoppingCartStore.products = [product, ...shoppingCartStore.products]
-    // shoppingCartStore.products = shoppingCartStore.products
-  },
+//     product.quantity = 1
+//     product.price = product.discountedPrice > 0 ? product.discountedPrice : product.price
+//     shoppingCartStore.products = [product, ...shoppingCartStore.products]
+//     // shoppingCartStore.products = shoppingCartStore.products
+//   },
 
-  totalQty(){
-    return shoppingCartStore.products.map(product => product.quantity )
-    .reduce((acc, qty) => acc + qty, 0);
+//   totalQty(){
+//     return shoppingCartStore.products.map(product => product.quantity )
+//     .reduce((acc, qty) => acc + qty, 0);
 
-  },
-})
+//   },
+// })
 
 // export const definitions = reactive({
 //   discounts: [

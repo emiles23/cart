@@ -86,7 +86,7 @@
         </div>
       </div>
     </div>
-    <h1 @click="shoppingCartStore.add(product)" class="
+    <h1 @click="add(product)" class="
       text-center
       dark:text-sky-400
       text-zinc-950
@@ -103,9 +103,9 @@
 import DropDown from "./DropDown.vue";
 import TextDiscountGroups from "./TextDiscountGroups.vue";
 import Question from "./icons/Question.vue";
-import { shoppingCartStore } from "../store.js"
-// import { definitions } from "../store.js"
-import { mapState } from 'pinia'
+//  'pinia'
+import { mapActions, mapState } from 'pinia'
+import { useShoppingCartStoreStore } from "../store/shoppingCartStore.js"
 import { useDefinitionsStore } from "../store/definitions.js"
 export default {
 
@@ -120,21 +120,17 @@ export default {
       default: {},
     },
 
-    // discount:{
-    //   default: {},
-    // }
   },
 
   data() {
     return {
       showDiscountDropDown: false,
-      shoppingCartStore,
-      // definitions
     }
   },
 
 
   methods: {
+    ...mapActions(useShoppingCartStoreStore, ['add']),
     isGroupDiscountAvailable(product) {
       return this.discountGroups.find(group => group.brands.includes(product.brand)) ? true : false
     },

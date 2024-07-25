@@ -26,7 +26,7 @@
 
 import ProductCard from "./components/ProductCard.vue";
 import Main from "./layout/Main.vue";
-import { shoppingCartStore } from "./store.js";
+// import { shoppingCartStore } from "./store.js";
 
 // import { definitions } from "./store.js";
 
@@ -48,7 +48,7 @@ export default {
       showCart: false,
       showDiscount: false,
       showCurrentiIndex: null,
-      shoppingCartStore,
+      // shoppingCartStore,
       // definitions,
 
     }
