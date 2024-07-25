@@ -11,7 +11,7 @@
 
 <script>
 import Close from "./icons/Close.vue";
-import { mapState } from 'pinia'
+import { mapWritableState } from 'pinia'
 import { useShoppingCartStoreStore } from "../store/shoppingCartStore.js"
 
 export default {
@@ -20,7 +20,7 @@ export default {
   },
 
   computed: { 
-    ...mapState(useShoppingCartStoreStore, ['show']),
+    ...mapWritableState(useShoppingCartStoreStore, ['show']),
   }
 
 }

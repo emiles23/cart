@@ -289,4 +289,4 @@ export default {
 .max-h-screen-80 {
   max-height: 85vh;
 }
-</style>
+</style> 
