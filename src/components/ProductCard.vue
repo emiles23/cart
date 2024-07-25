@@ -57,7 +57,7 @@
               mt-8 ">
 
             <TextDiscountGroups
-              v-for="(discount, index) in definitions.discountGroups.filter(discount => discount.brands.includes(product.brand))"
+              v-for="(discount, index) in discountGroups.filter(discount => discount.brands.includes(product.brand))"
               :key="index" :discount="discount" :class="index % 2 == 1 ? 'py-3' : '' " />
           </DropDown>
         </template>
@@ -104,7 +104,9 @@ import DropDown from "./DropDown.vue";
 import TextDiscountGroups from "./TextDiscountGroups.vue";
 import Question from "./icons/Question.vue";
 import { shoppingCartStore } from "../store.js"
-import { definitions } from "../store.js"
+// import { definitions } from "../store.js"
+import { mapState } from 'pinia'
+import { useDefinitionsStore } from "../store/definitions.js"
 export default {
 
   components: {
@@ -127,15 +129,19 @@ export default {
     return {
       showDiscountDropDown: false,
       shoppingCartStore,
-      definitions
+      // definitions
     }
   },
 
 
   methods: {
     isGroupDiscountAvailable(product) {
-      return definitions.discountGroups.find(group => group.brands.includes(product.brand)) ? true : false
+      return this.discountGroups.find(group => group.brands.includes(product.brand)) ? true : false
     },
+  },
+
+  computed: {
+    ...mapState(useDefinitionsStore, ['discounts','discountGroups']),
   }
 }
 </script>

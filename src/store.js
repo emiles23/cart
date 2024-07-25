@@ -26,88 +26,88 @@ export const shoppingCartStore = reactive({
   },
 })
 
-export const definitions = reactive({
-  discounts: [
-    {
-      brand: "Samsung",
-      min: 1000,
-      value: 10,
+// export const definitions = reactive({
+//   discounts: [
+//     {
+//       brand: "Samsung",
+//       min: 1000,
+//       value: 10,
 
-    },
-    {
-      brand: "Shein",
-      min: 45,
-      value: 30,
-      products: [
-        {
-          name: 'Pantalones jogger',
-          value: 20,
-          min: 0
-        },
+//     },
+//     {
+//       brand: "Shein",
+//       min: 45,
+//       value: 30,
+//       products: [
+//         {
+//           name: 'Pantalones jogger',
+//           value: 20,
+//           min: 0
+//         },
 
-        {
-          name: 'Blazer unicolor',
-          type: 'flat',
-          value: 5,
-          min: 0
-        },
+//         {
+//           name: 'Blazer unicolor',
+//           type: 'flat',
+//           value: 5,
+//           min: 0
+//         },
 
-      ]
-    },
-    {
-      brand: "Dell",
-      min: 800,
-      value: 12,
+//       ]
+//     },
+//     {
+//       brand: "Dell",
+//       min: 800,
+//       value: 12,
 
-      products: [
-        {
-          name: 'Computadora OptiPlex personalizada de escritorio Intel Core i5-6500',
-          value: 30,
-          min: 0
-        },
+//       products: [
+//         {
+//           name: 'Computadora OptiPlex personalizada de escritorio Intel Core i5-6500',
+//           value: 30,
+//           min: 0
+//         },
 
-      ]
-    },
-    {
-      brand: "Adidas",
-      min: 300,
-      value: 15
-    },
-    {
-      brand: "Rucha",
-      min: 100,
-      value: 5
-    },
+//       ]
+//     },
+//     {
+//       brand: "Adidas",
+//       min: 300,
+//       value: 15
+//     },
+//     {
+//       brand: "Rucha",
+//       min: 100,
+//       value: 5
+//     },
 
-  ],
+//   ],
 
-  discountGroups: [
-    {
-      brands: ['Shein', 'Rucha', 'Adidas'],
-      quantity: 3,
-      value: 5,
-      min: 400
-    },
-    {
-      brands: ['Samsung', 'Adidas', 'Shein'],
-      quantity: 2,
-      value: 200,
-      min: 1500,
-      type: 'flat',
-    }
-  ],
+//   discountGroups: [
+//     {
+//       brands: ['Shein', 'Rucha', 'Adidas'],
+//       quantity: 3,
+//       value: 5,
+//       min: 400
+//     },
+//     {
+//       brands: ['Samsung', 'Adidas', 'Shein'],
+//       quantity: 2,
+//       value: 200,
+//       min: 1500,
+//       type: 'flat',
+//     }
+//   ],
 
-  getDiscountGroupsRepresentation(discount) {
-    var textDiscount = '-'
+//   getDiscountGroupsRepresentation(discount) {
+//     var textDiscount = '-'
 
-    if (discount?.type === 'flat') {
-      textDiscount += `$${discount.value}`
-    }
-    else {
-      textDiscount += `${discount.value}%`
-    }
+//     if (discount?.type === 'flat') {
+//       textDiscount += `$${discount.value}`
+//     }
+//     else {
+//       textDiscount += `${discount.value}%`
+//     }
 
-    return textDiscount
-  },
-})
+//     return textDiscount
+//   },
+// })
 
