@@ -66,10 +66,10 @@
             </div>
           </div>
 
-          <div v-for="(discount, index) in definitions.discountGroups" :key="index" class="pb-5">
+          <div v-for="(discount, index) in discountGroups" :key="index" class="pb-5">
             <span v-if="isGroupDiscountApplicable(discount)" class="text-tertiary-700 dark:text-tertiary-500">
               Se ha aplicado un descuento del <span class=" text-red-500">{{
-                definitions.getDiscountGroupsRepresentation(discount)
+              getDiscountGroupsRepresentation(discount)
               }}</span> por
               llevar las marcas <span class="font-extrabold">{{ discount.brands.join(', ') }}</span>
             </span>
@@ -153,7 +153,10 @@ import CartHeader from "./CartHeader.vue";
 import ButtonCheckoutCart from "./ButtonCheckoutCart.vue";
 import DeleteAllCart from "./DeleteAllCart.vue";
 import { shoppingCartStore } from "../store.js";
-import { definitions } from "../store.js";
+
+import { mapState } from 'pinia'
+import { mapActions } from 'pinia'
+import { useDefinitionsStore } from "../store/definitions.js"
 
 export default {
 
@@ -171,11 +174,11 @@ export default {
   data() {
     return {
       shoppingCartStore,
-      definitions
-
     }
   },
   methods: {
+
+    ...mapActions(useDefinitionsStore, ['getDiscountGroupsRepresentation']),
 
     deleteAll() {
       return shoppingCartStore.products = []
@@ -198,7 +201,7 @@ export default {
     },
 
     getDiscountsApplied() {
-      return definitions.discounts.filter(discountedBrand => shoppingCartStore.products
+      return this.discounts.filter(discountedBrand => shoppingCartStore.products
         .some(shoppingCartProduct => discountedBrand.brand === shoppingCartProduct.brand))
     },
 
@@ -225,7 +228,7 @@ export default {
     // discount in group
 
     getTheGroupDiscount() {
-      return definitions.discountGroups.map(group => {
+      return this.discountGroups.map(group => {
         let prodcuts = shoppingCartStore.products.filter(productCart => group.brands.includes(productCart.brand)).map(productCart => {
           return productCart.brand
         })
@@ -243,7 +246,7 @@ export default {
       let discountTotal = 0
       let subtotal = this.subtotal()
 
-      discountTotal = definitions.discountGroups
+      discountTotal = this.discountGroups
         .filter(discount => subtotal >= discount.min && group.length >= discount.quantity)
         .map(discount => {
           if (discount.type === 'flat') {
@@ -268,6 +271,7 @@ export default {
 
   computed: {
 
+    ...mapState(useDefinitionsStore, ['discountGroups', 'discounts']),
     discountsApplied() {
       return this.getDiscountsApplied().map(discount => {
         discount.remainingForDiscount = this.getPendingAmountToPayPerBrand(discount)
