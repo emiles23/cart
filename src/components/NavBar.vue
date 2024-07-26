@@ -67,7 +67,7 @@ export default {
     ...mapActions(useShoppingCartStoreStore, ['totalQty']),
 
     changeDarkMode() {
-      console.log('hola')
+      // console.log('hola')
       this.isDark = !this.isDark
       localStorage.isDark = this.isDark
       // this.$emit('onChangeDarkMode',  this.isDark )

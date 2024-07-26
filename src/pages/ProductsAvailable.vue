@@ -2,7 +2,7 @@
   <Main>
     <!-- product -->
     <div class="text-sm">
-      <h2 class="text-2xl font-bold tracking-tight text-gray-900 ">
+      <h2 class="text-2xl font-bold tracking-tight text-gray-900 pt-8">
         Productos disponible
       </h2>
       <!-- <button @click="changeDarkMode">
