@@ -3,7 +3,7 @@
     - Por la compra mínima de <span class="font-extrabold">${{ discount.min
     }}</span>
     incluyendo {{ discount.quantity }} productos distintos de las marcas
-    <span class="font-extrabold">{{ discount.brands.join(', ') }}</span>, se
+    <span v-if="discount.brands?.length > 0" class="font-extrabold">{{ discount.brands.join(', ') }}</span>, se
     aplicara un
     descuento de
     <span class="font-extrabold text-red-400">
@@ -31,5 +31,11 @@ export default {
   methods: {
     ...mapActions(useDefinitionsStore, ['getDiscountGroupsRepresentation']),
   },
+
+  mounted(){
+
+    // console.log(this.discount)
+  }
+
 }
 </script>
