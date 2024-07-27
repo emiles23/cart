@@ -1,19 +1,5 @@
 <template>
-    <div class="
-          fixed 
-          w-96
-          py-6  
-          right-0    
-          px-9 
-          bottom-0 
-          z-20            
-          shadow-xl 
-          border-t 
-          border-primary-300
-          dark:border-secondary-500
-          bg-white
-          dark:bg-secondary-900
-          ">
+    <div>
         <div v-if="!elementCart()" class="
             flex 
             justify-between 
@@ -41,60 +27,36 @@
                 </p>
             </div>
         </div>
-        <!-- <p class="mt-0.5 text-sm text-gray-500">Shipping and taxes calculated at checkout.</p> -->
-        <div class="mt-6 ">
-            <ButtonCheckoutCart />
-        </div>
-
-        <div class="
-            mt-6 
-            flex 
-            justify-center 
-            text-center 
-            text-sm 
-           text-secondary-500">
-            <DeleteAllCart v-if="!elementCart()" @click="deleteAll()" />
-        </div>
+        <slot></slot>
     </div>
 </template>
-
 
 <script>
 import { mapWritableState, mapActions } from 'pinia'
 import { useShoppingCartStoreStore } from "../store/shoppingCartStore.js"
-import DeleteAllCart from "./DeleteAllCart.vue";
-import ButtonCheckoutCart from "./ButtonCheckoutCart.vue";
+
 
 export default {
-
-    components: {
-        // Delete,
-        DeleteAllCart,
-        ButtonCheckoutCart
-    },
 
     methods: {
 
         ...mapActions(useShoppingCartStoreStore,
-            [               
+            [
                 'elementCart',
                 'subtotal',
-                'getDiscountGroupAmount',              
+                'getDiscountGroupAmount',
                 'totalDiscount'
             ]
         ),
 
-        deleteAll() {
-            return this.products = []
-        },
         total() {
             return this.subtotal() - this.totalDiscount() - this.getDiscountGroupAmount()
-        },    
+        },
     },
 
     computed: {
         ...mapWritableState(useShoppingCartStoreStore, ['products']),
-  
+
         summary() {
             return {
                 total: this.total(),
