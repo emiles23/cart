@@ -93,9 +93,8 @@
             ">
             <!-- <p class="mt-0.5 text-sm text-gray-500">Shipping and taxes calculated at checkout.</p> -->
             <div class="mt-6 ">
-              <ButtonCheckoutCart />
+              <ButtonBag>Checkout</ButtonBag>
             </div>
-
             <div class="
               mt-6 
               flex 
@@ -123,7 +122,7 @@ import ModalCart from "./ModalCart.vue";
 import CartHeader from "./CartHeader.vue";
 import SubtotalTotal from "./SubtotalTotal.vue";
 
-import ButtonCheckoutCart from "./ButtonCheckoutCart.vue";
+import ButtonBag from "./ButtonBag.vue";
 import DeleteAllCart from "./DeleteAllCart.vue";
 // pinia
 import { mapState, mapActions, mapWritableState } from 'pinia'
@@ -138,7 +137,7 @@ export default {
     CartProduct,
     ModalCart,
     CartHeader,
-    ButtonCheckoutCart,
+    ButtonBag,
     DeleteAllCart,
     SubtotalTotal
 

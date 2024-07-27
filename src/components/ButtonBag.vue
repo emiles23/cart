@@ -13,6 +13,6 @@
       hover:bg-tertiary-700
       dark:bg-tertiary-600
       ">
-    Checkout
+    <slot></slot>
   </button>
 </template>

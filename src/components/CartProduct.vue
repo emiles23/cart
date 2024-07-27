@@ -1,30 +1,20 @@
 <template>
     <div class="flow-root">
         <ul role="list">
-            <li :class="index > 0 ? 'border-t border-primary-200 dark:border-secondary-600' : ''" class="flex py-8 mt-4">
+            <li :class="index > 0 ? 'border-t border-primary-200 dark:border-secondary-600' : ''"
+                class="grid grid-cols-12 gap-x-4 py-8 mt-4">
                 <div class="
-                    h-12 
-                    w-12 
-                    flex-shrink-0 
+                    col-span-4             
                     border                    
-                    border-x-primary-200
-                    overflow-hidden">
-                    <img :src="product.img" alt="" class="
-                       h-full 
-                       w-full 
-                       object-cover 
-                       object-center">
+                    border-x-primary-200                   
+                   ">
+                    <img :src="product.img">
                 </div>
                 <div class="
-                    ml-4 
-                    flex 
-                    flex-1 
-                    flex-col">
+                    col-span-8                   
+                    ">
                     <div class="
-                        flex 
-                        justify-between 
-                        gap-12 
-                        text-justify 
+                        
                         text-sm 
                         font-medium  
                         ">
@@ -32,12 +22,12 @@
                             <a href="#">{{ product.name }}</a>
                         </h3>
                         <div class="
-                            text-center 
+                            text-right 
                             text-secondary-600 dark:text-primary-300">
                             <span v-if="product.productDiscount" class="
                                 flex 
-                                justify-center 
-                                text-center 
+                                justify-end 
+                               
                                 gap-4">
                                 <span :class="product.productDiscount ? 'line-through decoration text-secondary-400' : ''">
                                     ${{ product.price + product.productDiscount }}
@@ -108,12 +98,12 @@ export default {
             default: 0,
         },
     },
-  
+
     methods: {
         ...mapActions(useShoppingCartStoreStore, ['add']),
-            
+
         deleteCart(productToDelete) {
-            
+
             if (productToDelete.quantity > 1) {
                 productToDelete.quantity--
                 return

@@ -1,30 +1,29 @@
 <template>
     <div>
         <div v-if="!elementCart()" class="
-            flex 
-            justify-between 
-            text-sm  
-            font-medium">
+            flex justify-between 
+            text-secondary-800 
+            dark:text-primary-300 font-normal">
             <div>
-                <p class="text-secondary-800 dark:text-primary-300">Subtotal actual:</p>
+                <p class=" pb-5">Subtotal actual:</p>
                 <p v-if="summary.totalDiscount" class="
-              text-red-600">
+                text-red-600">
                     Descuento:
                 </p>
-                <!-- <p v-if="summary.discountGroup" class="text-red-600">Descuento Grupal:</p> -->
-                <p class="text-gray-800 dark:text-gray-300">Total</p>
+
+                <p class="pt-5 font-semibold">Total</p>
             </div>
             <div>
-                <!-- <p>{{ getDiscountGroupAmount().toFixed(2) }}</p> -->
-                <p class="text-secondary-800 dark:text-primary-300">${{ summary.subtotal.toFixed(2) }}</p>
-                <!-- <p>{{ getTheGroupDiscount() }}</p> -->
+                <p class=" pb-5">${{ summary.subtotal.toFixed(2) }}</p>
+
                 <p v-if="summary.totalDiscount" class="text-red-600">-${{ summary.totalDiscount.toFixed(2) }}</p>
-                <!-- <p v-if="summary.discountGroup" class="text-red-600">-${{ summary.discountGroup.toFixed(2) }}</p> -->
-                <p class=" text-secondary-800 dark:text-primary-300
-              border-t 
-              border-primary-300 dark:border-secondary-500">
-                    ${{ summary.total.toFixed(2) }}
-                </p>
+                <p class=" 
+                        border-t 
+                        border-primary-300
+                        dark:border-secondary-500 
+                        pt-5 
+                        font-semibold ">
+                    ${{ summary.total.toFixed(2) }} </p>
             </div>
         </div>
         <slot></slot>
