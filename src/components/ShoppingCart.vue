@@ -76,7 +76,36 @@
           </div>
           <!-- total and subtotal -->
 
-          <SubtotalTotal />
+          <SubtotalTotal class="
+            fixed 
+            w-96
+            py-6  
+            right-0    
+            px-9 
+            bottom-0 
+            z-20            
+            shadow-xl 
+            border-t 
+            border-primary-300
+            dark:border-secondary-500
+            bg-white
+            dark:bg-secondary-900
+            ">
+            <!-- <p class="mt-0.5 text-sm text-gray-500">Shipping and taxes calculated at checkout.</p> -->
+            <div class="mt-6 ">
+              <ButtonCheckoutCart />
+            </div>
+
+            <div class="
+              mt-6 
+              flex 
+              justify-center 
+              text-center 
+              text-sm 
+            text-secondary-500">
+              <DeleteAllCart v-if="!elementCart()" @click="deleteAll()" />
+            </div>
+          </SubtotalTotal>
         </div>
         <!-- total -->
 
@@ -94,8 +123,8 @@ import ModalCart from "./ModalCart.vue";
 import CartHeader from "./CartHeader.vue";
 import SubtotalTotal from "./SubtotalTotal.vue";
 
-// import ButtonCheckoutCart from "./ButtonCheckoutCart.vue";
-// import DeleteAllCart from "./DeleteAllCart.vue";
+import ButtonCheckoutCart from "./ButtonCheckoutCart.vue";
+import DeleteAllCart from "./DeleteAllCart.vue";
 // pinia
 import { mapState, mapActions, mapWritableState } from 'pinia'
 import { useShoppingCartStoreStore } from "../store/shoppingCartStore.js"
@@ -109,8 +138,8 @@ export default {
     CartProduct,
     ModalCart,
     CartHeader,
-    // ButtonCheckoutCart,
-    // DeleteAllCart,
+    ButtonCheckoutCart,
+    DeleteAllCart,
     SubtotalTotal
 
   },
@@ -122,12 +151,16 @@ export default {
         'getDiscountsApplied',
         'elementCart',
         'getTheGroupDiscount',
-        'subtotal',   
-        'totalPerBrand',    
+        'subtotal',
+        'totalPerBrand',
       ]
     ),
 
     // BOOLEANO
+
+    deleteAll() {
+      return this.products = []
+    },
 
     isGroupDiscountApplicable(discount) {
       let group = this.getTheGroupDiscount()[0]
