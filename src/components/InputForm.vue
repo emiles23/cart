@@ -9,6 +9,7 @@
         placeholder:text-gray-400 
         focus:ring-2 focus:ring-inset 
         focus:ring-indigo-600 
-        sm:text-sm s
+        sm:text-sm
+        h-9
         m:leading-6" />
 </template>

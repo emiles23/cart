@@ -6,7 +6,7 @@
     </h2>
     <div class="grid grid-cols-2 gap-x-20 border border-gray-900/10  min-h-screen p-10">
       <form class=" sm:text-sm">
-        <div class="border-b border-gray-900/10 pb-12">
+        <!-- <div class="border-b border-gray-900/10 pb-12">
           <h2 class="text-xl font-semibold leading-7 text-gray-900">Información de Contacto</h2>
           <div class="sm:col-span-4">
             <label for="email" class="block text-sm font-medium leading-6 text-gray-900">Email
@@ -15,22 +15,21 @@
               <InputForm id="email" name="email" type="email" autocomplete="email" />
             </div>
           </div>
-        </div>
+        </div> -->
 
         <h2 class="text-xl font-semibold leading-7 text-gray-900">Información de envío</h2>
-        <div class="mt-10 grid grid-cols-12 gap-x-6 gap-y-8 sm:grid-cols-12">
-          <div v-for="(input, index) in inputs" :key="index" class="sm:col-span-6">
-            <label for="first-name" class="block text-sm font-medium leading-6 text-gray-900">
-              {{ input.label }}
-            </label>
-            <div class="mt-2">
-              <InputForm type="text" name="first-name" id="first-name" autocomplete="given-name" />
-            </div>
+        <div class="mt-10  gap-x-6 gap-y-8">
+          <div v-for="(row, index) in rows" :key="index" class="grid grid-cols-12 gap-4">
+            <div v-for="(field, index) in row.fields" :class="row.class">
+              <label for="first-name" class="block text-sm font-medium leading-6 text-gray-900">
+                {{ field.label }}
+              </label>
+              <InputForm :type="field.type" name="first-name" id="first-name" autocomplete="given-name"/>
 
+            </div>
           </div>
         </div>
       </form>
-
       <div>
         <h2 class="text-xl font-semibold leading-7 text-gray-900 pb-5">Resumen del pedido</h2>
         <div class="
@@ -80,7 +79,7 @@
         m:leading-6">hghjghiigiyg </fieldset> -->
 
 
-        
+
 
       </div>
 
@@ -111,17 +110,41 @@ export default {
 
   data() {
     return {
-      inputs: [
-        { name: 'Nombre', label: 'Nombre', type: 'text' },
-        { name: 'Apellido', label: 'Apellido', type: 'text' },
-        { name: 'Apellido', label: 'Empresa', type: 'text' },
-        { name: 'Apellido', label: 'Dirección', type: 'text' },
-        { name: 'Apellido', label: 'Apartamento, suite, etc.', type: 'text' },
-        { name: 'Apellido', label: 'Ciudad', type: 'text' },
-        { name: 'Apellido', label: 'País', type: 'text' },
-        { name: 'Apellido', label: 'Estado / Provincia', type: 'text' },
-        { name: 'Apellido', label: 'Código postal', type: 'text' },
-        { name: 'Apellido', label: 'Teléfono', type: 'text' },
+      rows: [
+        {
+          class: 'col-span-6',
+          fields: [
+            { name: 'Nombre', label: 'Nombre', type: 'text', value:'' },
+            { name: 'Apellido', label: 'Apellido', type: 'text',  value:'' },
+          ]
+        },
+
+        {
+          class: 'col-span-12 mt-4',
+          fields: [
+            { name: 'Apellido', label: 'Empresa', type: 'text',  value:'' },
+            { name: 'Apellido', label: 'Dirección', type: 'text', value:'' },
+            { name: 'Apellido', label: 'Apartamento, suite, etc.', type: 'text',  value:'' },
+
+          ]
+        },
+        {
+          class: 'col-span-6 mt-4',
+          fields: [
+            { name: 'Apellido', label: 'Ciudad', type: 'text',  value:'' },
+            { name: 'Apellido', label: 'País', type: 'text ',  value:'' },
+            { name: 'Apellido', label: 'Estado / Provincia', type: 'text',  value:'' },
+            { name: 'Apellido', label: 'Código postal', type: 'text', value:'' },
+          ]
+        },
+
+        {
+          class: 'col-span-12 mt-4',
+          fields: [
+
+            { name: 'Apellido', label: 'Teléfono', type: 'number', value:'' },
+          ]
+        },
       ]
     }
   },
