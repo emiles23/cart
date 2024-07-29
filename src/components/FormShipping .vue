@@ -18,7 +18,7 @@
         <label for="first-name" class="block text-sm font-medium leading-6 text-gray-700 dark:text-gray-300">
           {{ field.label }}
         </label>
-        <fieldsForm v-model="field.value" :type="field.type" />
+        <fieldsForm v-model="field.value" :type="field.type" class="h-9" />
       </div>
     </div>
   </form>

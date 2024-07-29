@@ -14,7 +14,7 @@
         border-primary-300  
         dark:bg-gray-800
         dark:border-gray-800
-        dark:text-primary-300 
+        dark:text-primary-300
         sm:text-sm
         h-9
         m:leading-6" />

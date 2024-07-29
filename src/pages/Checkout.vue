@@ -4,16 +4,21 @@
     <h2 class="text-2xl font-bold tracking-tight pt-8 pb-8 ">
       Checkout
     </h2>
-    <div class="grid grid-cols-2 gap-x-20 border border-gray-900/10  min-h-screen p-10">
+    <div class="grid grid-cols-2 gap-x-20 border  border-gray-900/10 
+          dark:border-gray-700  min-h-screen p-10">
       <div>
         <h2 class="text-xl font-semibold leading-7 mb-6">Información de Contacto</h2>
-        <FormCheckout />
+        <FormShipping />
+        <div class="border-t  border-gray-900/10 mt-10">
+          <h2 class="text-xl font-semibold leading-7 mb-6 mt-10">Pago</h2>
+          <FormPayment />
+        </div>
       </div>
 
       <div>
         <h2 class="text-xl font-semibold leading-7 pb-5">Resumen del pedido</h2>
- 
-          <OrderSummary/>
+
+        <OrderSummary />
 
       </div>
 
@@ -38,16 +43,18 @@
 </template>
   
 <script>
-import FormCheckout from "../components/FormCheckout.vue";
+import FormShipping from "../components/FormShipping .vue";
 import OrderSummary from "../components/OrderSummary.vue";
+import FormPayment from "../components/FormPayment.vue";
 
 // pinia
 
 export default {
 
   components: {
-    FormCheckout,
+    FormShipping,
     OrderSummary,
+    FormPayment
   },
 }
 </script>
