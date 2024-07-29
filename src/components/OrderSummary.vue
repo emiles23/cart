@@ -7,24 +7,34 @@
             dark:bg-secondary-900  
             dark:text-primary-50 
             text-base">
-    <div class="            
-            max-h-screen-45
-            overflow-y-auto 
-            px-5               
-          ">
-      <CartProduct v-for="(product, index) in products" :key="index" :product="product" :index="index" />
+    <div v-if="!elementCart()">
+      <div class="            
+              max-h-screen-45
+              overflow-y-auto 
+              px-5               
+            ">
+        <CartProduct v-for="(product, index) in products" :key="index" :product="product" :index="index" />
+      </div>
+      <div class="
+                border-t border-b  
+                border-gray-900/10                         
+                min-h-screen-20                      
+                p-5
+                leading-loose                               b
+            ">
+        <SubtotalTotal class="" />
+      </div>
+      <div class="flex items-center h-24 px-5">
+        <ButtonBag>Confirmar pedido</ButtonBag>
+      </div>
     </div>
-    <div class="
-              border-t border-b  
-              border-gray-900/10                         
-              min-h-screen-20                      
-               p-5
-              leading-loose                               
-          ">
-      <SubtotalTotal class="" />
-    </div>
-    <div class="flex items-center h-24 px-5">
-      <ButtonBag>Confirmar pedido</ButtonBag>
+    <div v-else class="
+        h-96 flex 
+        justify-center 
+        items-center text-xl  
+        dark:text-primary-300 
+        text-secondary-600">
+      <h1>Tu bolsa esta vacia</h1>
     </div>
   </div>
 </template>
@@ -35,7 +45,7 @@ import CartProduct from "../components/CartProduct.vue";
 import SubtotalTotal from "../components/SubtotalTotal.vue";
 import ButtonBag from "../components/ButtonBag.vue";
 // pinia
-import { mapWritableState } from 'pinia'
+import { mapWritableState, mapActions } from 'pinia'
 import { useShoppingCartStoreStore } from "../store/shoppingCartStore.js"
 export default {
 
@@ -45,12 +55,15 @@ export default {
     ButtonBag
   },
 
-
-
   computed: {
     ...mapWritableState(useShoppingCartStoreStore, ['products']),
 
-  }
+  },
+
+  methods: {
+    ...mapActions(useShoppingCartStoreStore, ['elementCart',]),
+
+  },
 }
 </script>
 
