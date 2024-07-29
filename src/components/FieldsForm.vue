@@ -1,5 +1,5 @@
 <template>
-  <input type="text" name="first-name" id="first-name" autocomplete="given-name" class="
+  <input :value="modelValue" @input="$emit('update:modelValue', $event.target.value)" class="
         block w-full 
         rounded-md border-0 py-1.5 px-2
         text-gray-900 
@@ -13,3 +13,10 @@
         h-9
         m:leading-6" />
 </template>
+
+<script>
+export default {
+  props: ['modelValue'],
+  emits: ['update:modelValue']
+}
+</script>
