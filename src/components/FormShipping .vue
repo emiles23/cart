@@ -1,19 +1,7 @@
 <template>
   <form class=" sm:text-sm">
     <div v-for="(row, index) in rows" :key="index" class="grid grid-cols-12 gap-4">
-      <h1 v-if="row.title" class="
-          col-span-12 
-          text-xl 
-          font-semibold 
-          leading-10  
-          text-gray-700 
-          dark:text-gray-300  
-          border-t 
-          border-gray-900/10 
-          dark:border-y-gray-700
-          pt-6">
-        {{ row.title }}
-      </h1>
+      <H1Title v-if="row.title" class=" col-span-12 ">{{ row.title }}</H1Title>
       <div v-for="(field, index) in row.fields" :class="row.class">
         <label for="first-name" class="block text-sm font-medium leading-6 text-gray-700 dark:text-gray-300">
           {{ field.label }}
@@ -26,11 +14,13 @@
 
 <script>
 import FieldsForm from "../components/fieldsForm.vue";
+import H1Title from "../components/H1Title.vue";
 
 export default {
 
   components: {
     FieldsForm,
+    H1Title
 
   },
 
