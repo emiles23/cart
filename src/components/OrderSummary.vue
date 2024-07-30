@@ -5,7 +5,8 @@
             max-h-screen-70 
             bg-primary-50  
             dark:bg-secondary-900  
-            dark:text-primary-50 
+            dark:text-primary-50
+            rounded-md 
             text-base">
     <div v-if="!elementCart()">
       <div class="            
