@@ -2,15 +2,15 @@
     <form class=" sm:text-sm block text-sm font-medium leading-6 text-gray-700 dark:text-gray-300">
         <H1Title>Método Pago </H1Title>
         <div v-for="(row, index) in rows" :key="index" class="grid grid-cols-12 gap-4 pt-5 ">
-            <div v-for="(field, index) in row.fields" :class="row.class" >
-                <div v-if="field.type === 'text'">
-                    <label for="first-name" class="">
+            <div v-for="(field, index) in row.fields" :class="row.class">
+                <div v-if="field.type !== 'radio'">
+                    <label for="first-name">
                         {{ field.label }}
                     </label>
                     <fieldsForm v-model="field.value" :type="field.type" />
                 </div>
-                <div v-else-if="field.type === 'radio'" v-for="(option, index) in field.options" class=" flex ">
-                    <input v-model="field.value" :type="field.type" :value="option.value" />
+                <div v-else v-for="(option, index) in field.options" class=" flex ">
+                    <input v-model="field.value" :type="field.type" :value="option.value" class="cursor-pointer" />
                     <label class="pl-2">{{ option.label }}</label>
                 </div>
             </div>
@@ -50,16 +50,16 @@ export default {
                 },
 
                 {
-                    class: 'col-span-12 my-3',
+                    class: 'col-span-6 my-3',
                     fields: [
-                        { name: 'card-number', label: 'Número de tarjeta', type: 'text', value: '' },
+                        { name: 'card-number', label: 'Número de tarjeta', type: 'text', value: '', },
                         { name: 'name-on-card', label: 'Nombre en la tarjeta', type: 'text', value: '' },
                     ]
                 },
                 {
                     class: 'col-span-6 mt-4',
                     fields: [
-                        { name: 'expiration-date', label: 'Fecha de caducidad (MM/AA)', type: 'text', value: '' },
+                        { name: 'expiration-date', label: 'Fecha de caducidad (MM/AA)', type: 'date', value: '' },
                         { name: 'cvc', label: 'CVC', type: 'text', value: '' },
 
                     ]
