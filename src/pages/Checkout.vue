@@ -5,13 +5,13 @@
       Checkout
     </h2>
     <div class="
-        grid grid-cols-2 
+        grid grid-cols-12 
         gap-x-20 border  
         border-gray-900/10 
         dark:border-gray-700  
-        min-h-screen p-10  
+        min-h-screen p-20 
         rounded-md">
-      <div>
+      <div class="col-span-7">
         <h2 class="text-xl font-semibold leading-7 pb-5">Información de Contacto</h2>
         <FormShipping class="mb-10" />
         <!-- Método de entrega -->
@@ -20,7 +20,7 @@
         <FormPayment class="mt-10" />    
       </div>
       <!-- Resumen del pedido -->
-      <div>
+      <div class="col-span-5">
         <h2 class="text-xl font-semibold leading-7 pb-5">Resumen del pedido</h2>
         <OrderSummary />
       </div>
