@@ -1,6 +1,7 @@
 <template>
   <select :value="modelValue" @input="$emit('update:modelValue', $event.target.value)" class="   
       block 
+      w-full
       rounded-md  
       py-1.5 
       px-3
@@ -20,7 +21,8 @@
       dark:border-gray-800             
       dark:text-primary-300               
       sm:text-sm              
-      h-9               
+      h-9 
+      cursor-pointer              
       m:leading-6">
     <slot></slot>
   </select>
