@@ -17,18 +17,13 @@
 </template>
 
 <script>
-
 import Radio from "../components/icons/Radio.vue";
-
 export default {
   components: {
     Radio,
-
   },
-
   props: ['modelValue', 'option'], 
   emits: ['update:modelValue'],
-
   data() {
     return {
       // value: this.modelValue
