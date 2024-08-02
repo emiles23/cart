@@ -1,86 +1,20 @@
 <template>
-  <form class=" sm:text-sm">
-    <div v-for="(row, index) in rows" :key="index" class="grid grid-cols-12 gap-4">
-      <template v-if="!row.showIf || findField(row.showIf.name).value === row.showIf.value">
-        <h1 v-if="row.title" class="
-        col-span-12 
-        mt-12
-        mb-5
-        text-xl
-        font-semibold
-        leading-7 pt-10
-        text-gray-700 
-        dark:text-gray-300  
-        border-t 
-        border-gray-900/10 
-        dark:border-y-gray-700">
-          {{ row.title }}
-        </h1>
-        <div v-for="(field, index) in row.fields" :class="row.class" class="block text-sm font-medium">
-
-          <div v-if="field.type === 'radio'" class="flex gap-4 flex-col">
-            <label class="leading-10"> {{ field.label }} </label>
-            <div class="flex">
-              <div v-for="(option, index) in field.options" class="flex mr-4">
-                <input v-model="field.value" :type="field.type" :value="option.value" class="cursor-pointer" />
-                <label class="pl-2">{{ option.label }}</label>
-              </div>
-            </div>
-          </div>
-
-
-          <div v-else-if="field.type === 'select'">
-            <label class="leading-10">{{ field.label }}: {{ field.selected }}</label>
-            <FieldSelect v-model="field.selected">
-              <option disabled value="">{{ field.disabled }}</option>
-              <option v-for="(option, index) in field.options" :key="index" :value="option.value">{{ option.value }}
-              </option>
-            </FieldSelect>
-          </div>
-
-          <div v-else-if="field.type === 'CartSelect'" class="grid grid-cols-2 gap-4">
-            <CartSelect v-for="(option, index) in field.options" :key="index" :option="option" v-model="field.value">
-              <span class="flex flex-col text-justify">
-                <span>{{ option.title }}</span>
-                <span class="text-gray-500 dark:text-gray-400 font-normal pb-7">{{ option.days }}</span>
-                <span>{{ option.price }}</span>
-              </span>
-            </CartSelect>
-          </div>
-
-          <component v-else-if="field.type === 'component'" :is="field.name"></component>
-
-          <div v-else>
-            <label class="leading-10">{{ field.label }}</label>
-            <FieldText v-model="field.value" :type="field.type" />
-          </div>
-
-        </div>
-      </template>
-    </div>
-  </form>
-
-  <!-- <ButtonPaypal/> -->
+  <BasicForm :rows="rows" :buttonTitle="buttonTitle" />
 </template>
 <script>
-import FieldText from "../components/FieldText.vue";
-import FieldSelect from "../components/FieldSelect.vue";
-import CartSelect from "../components/CartSelect.vue";
-import ButtonPaypal from "../components/ButtonPaypal.vue";
+import BasicForm from "../components/BasicForm.vue";
+import PaypalButton from "../components/PaypalButton.vue";
 
 export default {
 
   components: {
-    FieldText,
-    FieldSelect,
-    CartSelect,
-    ButtonPaypal
-
+    BasicForm,
+    PaypalButton
   },
-
   data() {
     return {
       // typeOfShipment: null,
+      buttonTitle:'Procesar Pedido',
       rows: [
         // Delivery method 
         {
@@ -150,7 +84,6 @@ export default {
           fields: [
             { name: 'Apellido', label: 'Código postal', type: 'text', value: '' },
             { name: 'Apellido', label: 'Apartamento, suite, etc.', type: 'text', value: '' },
-
           ]
         },
         {
@@ -176,7 +109,6 @@ export default {
             }
           ]
         },
-
 
         // Payment Method 
         {
@@ -221,7 +153,6 @@ export default {
           ]
         },
 
-
         {
           showIf: {
             name: 'paymentType',
@@ -230,21 +161,10 @@ export default {
           class: 'col-span-12 mt-10 flex justify-center ',
           fields: [
             // mejorar este tipo de componente
-            { name: 'ButtonPaypal', type: 'component', },
+            { name: PaypalButton, type: 'component' },
           ]
         },
       ]
-    }
-  },
-  methods: {
-    findField(name) {
-      return this.rows.reduce((arr, row) => [...arr, ...row.fields], []).find(field => field.name === name)
-    }
-  },
-
-  computed: {
-    fields() {
-      return this.rows.reduce((arr, row) => [...arr, ...row.fields], [])
     }
   },
 }

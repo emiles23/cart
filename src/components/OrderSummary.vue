@@ -4,8 +4,10 @@
            border-gray-900/10 
             max-h-screen-70 
             bg-primary-50  
-            dark:bg-secondary-900  
+            dark:bg-secondary-900
+            drop-shadow-md
             dark:text-primary-50
+            dark:border-secondary-800  
             rounded-md 
             text-base">
     <div v-if="!elementCart()">
@@ -26,7 +28,7 @@
         <SubtotalTotal class="" />
       </div>
       <div class="flex items-center h-24 px-5">
-        <ButtonBag>Confirmar pedido</ButtonBag>
+        <CustomButton>Confirmar pedido</CustomButton>
       </div>
     </div>
     <div v-else class="
@@ -44,7 +46,7 @@
 
 import CartProduct from "../components/CartProduct.vue";
 import SubtotalTotal from "../components/SubtotalTotal.vue";
-import ButtonBag from "../components/ButtonBag.vue";
+import CustomButton from "../components/CustomButton.vue";
 // pinia
 import { mapWritableState, mapActions } from 'pinia'
 import { useShoppingCartStoreStore } from "../store/shoppingCartStore.js"
@@ -53,7 +55,7 @@ export default {
   components: {
     SubtotalTotal,
     CartProduct,
-    ButtonBag
+    CustomButton
   },
 
   computed: {

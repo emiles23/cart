@@ -24,6 +24,7 @@
 import Main from "./layout/Main.vue";
 import ProductsAvailable from "./pages/ProductsAvailable.vue";
 import Checkout from "./pages/Checkout.vue";
+import Login from "./pages/Login.vue";
 
 
 export default {
@@ -33,7 +34,8 @@ export default {
       currentTab:'ProductsAvailable',
       tabs: [
         { name: 'Productos', component: 'ProductsAvailable' },
-        { name: 'Checkout', component: 'Checkout' }
+        { name: 'Checkout', component: 'Checkout' },
+        { name: 'Login', component: 'Login' }
       ],
     }
   },
@@ -41,6 +43,7 @@ export default {
     ProductsAvailable,
     Checkout,
     Main,
+    Login
   },
 }
-</script>
+</script> 

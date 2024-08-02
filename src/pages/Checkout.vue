@@ -6,9 +6,13 @@
     </h2>
     <div class="
         grid grid-cols-12 
-        gap-x-20 border  
-        border-gray-900/10 
-        dark:border-gray-700  
+        gap-x-20 
+        border   
+        dark:border-secondary-900 
+        dark:bg-secondary-900  
+        bg-primary-50
+        drop-shadow-md
+        border-transparent    
         min-h-screen p-20 
         rounded-md">
         <!-- ORDER FORM -->
@@ -39,3 +43,5 @@ export default {
   },
 }
 </script>
+
+

@@ -6,7 +6,7 @@
       rounded-md border
       border-transparent    
       px-6
-      py-3 text-base 
+      py-2 text-base 
       font-medium 
       text-white shadow-sm 
       bg-tertiary-900
