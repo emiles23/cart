@@ -81,8 +81,7 @@
               ${{ product.price }}
             </span>
           </div>
-
-
+         
         </div>
       </div>
     </div>

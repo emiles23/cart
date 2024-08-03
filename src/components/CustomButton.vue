@@ -12,6 +12,7 @@
       bg-tertiary-900
       hover:bg-tertiary-700
       dark:bg-tertiary-600
+      dark:hover:bg-tertiary-500
       ">
     <slot></slot>
   </button>

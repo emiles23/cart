@@ -19,6 +19,7 @@ export default {
         // Delivery method 
         {
           class: 'col-span-12',
+          title:'Información de Contacto',
           fields: [
             { name: 'email', label: 'Dirección de correo electrónico', type: 'email', value: '' },
           ]
@@ -26,7 +27,7 @@ export default {
 
         {
           class: 'col-span-6',
-          title: 'Información de envío',
+          subTitle: 'Información de envío',
           fields: [
             { name: 'Nombre', label: 'Nombre', type: 'text', value: '' },
             { name: 'Apellido', label: 'Apellido', type: 'text', value: '' },
@@ -97,14 +98,14 @@ export default {
 
         {
           class: 'col-span-12',
-          title: 'Método de entrega',
+          subTitle: 'Método de entrega',
           fields: [
             {
               type: 'CartSelect',
               value: 0,
               options: [
-                { title: 'Estándar', days: '4-10 días laborables', price: '$5.00', value: 0 },
-                { title: 'Express', days: '2-5 días laborables', price: '$16.00', value: 1 },
+                { subTitle: 'Estándar', days: '4-10 días laborables', price: '$5.00', value: 0 },
+                { subTitle: 'Express', days: '2-5 días laborables', price: '$16.00', value: 1 },
               ]
             }
           ]
@@ -113,7 +114,7 @@ export default {
         // Payment Method 
         {
           class: 'col-span-12 flex w-full gap-12',
-          title: 'Método Pago',
+          subTitle: 'Método Pago',
           fields: [
             {
               name: 'paymentType',

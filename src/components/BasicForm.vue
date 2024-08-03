@@ -1,21 +1,28 @@
 <template>
-  <form class=" sm:text-sm">
+  <form class=" sm:text-sm  text-gray-700 
+        dark:text-gray-300  font-semibold  leading-7 ">
     <div v-for="(row, index) in rows" :key="index" class="grid grid-cols-12 gap-4">
+
       <template v-if="!row.showIf || findField(row.showIf.name).value === row.showIf.value">
         <h1 v-if="row.title" class="
-        col-span-12 
-        mt-12
-        mb-5
-        text-xl
-        font-semibold
-        leading-7 pt-10
-        text-gray-700 
-        dark:text-gray-300  
-        border-t 
-        border-gray-900/10 
-        dark:border-y-gray-700">
+          col-span-12 
+          mb-5
+          text-xl  
+        ">
           {{ row.title }}
         </h1>
+        <h1 v-if="row.subTitle" class="
+          col-span-12 
+          mt-12
+          mb-5
+          text-lg   
+          pt-10
+          border-t 
+          dark:border-secondary-800
+        ">
+          {{ row.subTitle }}
+        </h1>
+
         <div v-for="(field, index) in row.fields" :class="row.class" class="block text-sm font-medium">
 
           <div v-if="field.type === 'radio'" class="flex gap-4 flex-col">
@@ -87,14 +94,14 @@ export default {
   //   'buttonTitle'
   // ],
 
-  props:{
-    rows:{
-      type:Array,
-      default:[]
+  props: {
+    rows: {
+      type: Array,
+      default: []
     },
-    buttonTitle:{
-      type:String,
-      default:''
+    buttonTitle: {
+      type: String,
+      default: ''
     }
   },
 

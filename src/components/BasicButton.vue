@@ -11,6 +11,7 @@
         dark:bg-secondary-1000
         hover:bg-primary-100
         dark:hover:bg-secondary-800
+        dark:text-primary-300
         flex gap-3
         ">
        <component :is="icon" > </component>

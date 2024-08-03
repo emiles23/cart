@@ -1,45 +1,30 @@
 
 <template>
-  <div class=" text-gray-700 dark:text-gray-300">
-    <h2 class="text-2xl font-bold tracking-tight pt-8 pb-8 ">
-      Checkout
-    </h2>
-    <div class="
-        grid grid-cols-12 
-        gap-x-20 
-        border   
-        dark:border-secondary-900 
-        dark:bg-secondary-900  
-        bg-primary-50
-        drop-shadow-md
-        border-transparent    
-        min-h-screen p-20 
-        rounded-md">
-        <!-- ORDER FORM -->
+    <BasicPageCard class="p-20">
+      <!-- ORDER FORM -->
       <div class="col-span-7">
-        <h2 class="text-xl font-semibold leading-7 pb-5">Información de Contacto</h2>       
-        <CheckoutForm/>
+        <CheckoutForm />
       </div>
       <!-- Resumen del pedido -->
       <div class="col-span-5">
         <h2 class="text-xl font-semibold leading-7 pb-5">Resumen del pedido</h2>
         <OrderSummary />
       </div>
-    </div>
-  </div>
+    </BasicPageCard>
 </template>
+
 <script>
 
 import OrderSummary from "../components/OrderSummary.vue";
 import CheckoutForm from "../components/CheckoutForm.vue";
-
-
+import BasicPageCard from "../components/BasicPageCard.vue";
 
 export default {
 
   components: {
     OrderSummary,
-    CheckoutForm
+    CheckoutForm,
+    BasicPageCard
   },
 }
 </script>

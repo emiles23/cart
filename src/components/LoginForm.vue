@@ -1,16 +1,16 @@
 <template>
-  <div >
+  <div>
     <BasicForm :rows="rows" :buttonTitle="buttonTitle" />
-    <h1 class="text-center py-10">O continuar con</h1>
+    <h1 class="flex justify-center py-10">O continuar con</h1>
     <div class="flex justify-center gap-5">
-      <BasicButton v-for="button in buttons" :icon="button.icon">{{button.name}}</BasicButton>
+      <BasicButton v-for="button in buttons" :icon="button.icon">{{ button.name }}</BasicButton>
     </div>
 
   </div>
 </template>
 
-
 <script>
+
 import BasicForm from "../components/BasicForm.vue";
 import BasicButton from "../components/BasicButton.vue";
 import GoogleIcon from "../components/icons/Google.vue";
@@ -28,11 +28,11 @@ export default {
     return {
       buttons: [
         {
-          name:'Google',
+          name: 'Google',
           icon: GoogleIcon
         },
         {
-          name:'Github',
+          name: 'Github',
           icon: GithubIcon
         }
       ],
@@ -45,14 +45,22 @@ export default {
           title: 'Acceda a su cuenta',
           fields: [
             { name: 'email', label: 'Dirección de correo electrónico', type: 'email', value: '' },
-            { name: 'Password', label: 'Contraseña', type: 'email', value: '' },
+            { name: 'Password', label: 'Contraseña', type: 'password', value: '' },
           ]
         },
 
-
-
-
-
+        {
+          class: 'col-span-12 flex w-full gap-12',
+          fields: [
+            {
+              type: 'radio',
+              value: 0,
+              options: [
+                { label: 'Recordarme', value: 0 },
+              ]
+            }
+          ]
+        },
       ]
     }
   },

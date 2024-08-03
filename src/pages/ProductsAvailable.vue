@@ -1,10 +1,9 @@
 <template>
   <Main>
     <!-- product -->
-    <div class="text-sm">
-      <h2 class="text-2xl font-bold tracking-tight text-gray-900 pt-8">
+      <!-- <h2 class="text-2xl font-bold tracking-tight text-gray-900 pt-8">
         Productos disponible
-      </h2>
+      </h2> -->
       <!-- <button @click="changeDarkMode">
           noche
         </button> -->
@@ -16,8 +15,6 @@
             py-3 
             rounded-xl" />
       </div>
-    </div>
-
   </Main>
 </template>
 
