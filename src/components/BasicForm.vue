@@ -46,12 +46,14 @@
           </div>
 
           <div v-else-if="field.type === 'CartSelect'" class="grid grid-cols-2 gap-4">
-            <CartSelect v-for="(option, index) in field.options" :key="index" :option="option" v-model="field.value">
+            <CartSelect v-for="(option, index) in field.options" :key="index" :option="option" v-model="field.value"
+              class="h-32">
               <span class="flex flex-col text-justify">
-                <span>{{ option.title }}</span>
+                <span>{{ option.subTitle }}</span>
                 <span class="text-gray-500 dark:text-gray-400 font-normal pb-7">{{ option.days }}</span>
                 <span>{{ option.price }}</span>
               </span>
+              <Radio v-if=" field.value == option.value" class="absolute right-3 top-3" />
             </CartSelect>
           </div>
 
@@ -70,12 +72,13 @@
 </template>
 
 <script>
-import FieldText from "../components/FieldText.vue";
-import FieldSelect from "../components/FieldSelect.vue";
-import CartSelect from "../components/CartSelect.vue";
-import BasicButton from "../components/BasicButton.vue";
-import CustomButton from "../components/CustomButton.vue";
-import Paypal from "../components/icons/Paypal.vue";
+import FieldText from "./FieldText.vue";
+import FieldSelect from "./FieldSelect.vue";
+import CartSelect from "./CartSelect.vue";
+import BasicButton from "./BasicButton.vue";
+import CustomButton from "./CustomButton.vue";
+import Radio from "./icons/Radio.vue";
+import Paypal from "./icons/Paypal.vue";
 
 
 export default {
@@ -86,7 +89,8 @@ export default {
     CartSelect,
     BasicButton,
     CustomButton,
-    Paypal
+    Paypal,
+    Radio,
   },
 
   // props: [

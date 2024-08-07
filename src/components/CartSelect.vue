@@ -1,9 +1,8 @@
 <template>
     <div @click="$emit('update:modelValue', option.value)"
-      :class="modelValue == option.value ? 'border dark:border-tertiary-500 border-tertiary-800' : ''" class="
+      :class="modelValue == option.value ? 'border-2 dark:border-tertiary-500 border-tertiary-800' : ''" class="
       relative     
-      p-3
-      h-32 
+      p-2
       bg-primary-50  
       dark:bg-secondary-900     
       border  
@@ -12,15 +11,15 @@
       cursor-pointer
     ">
       <slot></slot>
-      <Radio v-if="modelValue == option.value" class="absolute right-3 top-3" />
+      <!-- <Radio v-if="modelValue == option.value" class="absolute right-3 top-3" /> -->
     </div>
 </template>
 
 <script>
-import Radio from "../components/icons/Radio.vue";
+// import Radio from "../components/icons/Radio.vue";
 export default {
   components: {
-    Radio,
+    // Radio,
   },
   props: ['modelValue', 'option'], 
   emits: ['update:modelValue'],
