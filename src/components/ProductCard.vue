@@ -11,7 +11,10 @@
          lg:aspect-none 
          group-hover:opacity-75 
          lg:h-80">
-      <img :src="product.img" class="
+      <img @click="() => {
+        displayedProduct = product
+        currentTab = tabs[3]
+      }" :src="product.img" class=" 
         h-full 
         w-full 
         object-cover 
@@ -58,7 +61,7 @@
 
             <TextDiscountGroups
               v-for="(discount, index) in discountGroups.filter(discount => discount.brands.includes(product.brand))"
-              :key="index" :discount="discount" :class="index % 2 == 1 ? 'py-3' : '' " />
+              :key="index" :discount="discount" :class="index % 2 == 1 ? 'py-3' : ''" />
           </DropDown>
         </template>
 
@@ -81,7 +84,7 @@
               ${{ product.price }}
             </span>
           </div>
-         
+
         </div>
       </div>
     </div>
@@ -103,9 +106,12 @@ import DropDown from "./DropDown.vue";
 import TextDiscountGroups from "./TextDiscountGroups.vue";
 import Question from "./icons/Question.vue";
 //  'pinia'
-import { mapActions, mapState } from 'pinia'
+import { mapActions, mapState, mapWritableState } from 'pinia'
 import { useShoppingCartStoreStore } from "../store/shoppingCartStore.js"
 import { useDefinitionsStore } from "../store/definitions.js"
+import { useProductDetailStore } from "../store/productDetail.js"
+import { useTabsStore } from "../store/tabs.js"
+
 export default {
 
   components: {
@@ -136,7 +142,9 @@ export default {
   },
 
   computed: {
-    ...mapState(useDefinitionsStore, ['discounts','discountGroups']),
+    ...mapState(useDefinitionsStore, ['discounts', 'discountGroups']),
+    ...mapWritableState(useProductDetailStore, ['displayedProduct']),
+    ...mapWritableState(useTabsStore, ['currentTab', 'tabs']),
   }
 }
 </script>

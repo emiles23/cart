@@ -82,7 +82,7 @@
 import Delete from "./icons/Delete.vue";
 
 //pinia
-import { mapWritableState, mapActions } from 'pinia'
+import { mapWritableState, mapActions,} from 'pinia'
 import { useShoppingCartStoreStore } from "../store/shoppingCartStore.js"
 
 export default {
