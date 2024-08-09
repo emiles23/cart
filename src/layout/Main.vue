@@ -3,7 +3,7 @@
     <!-- <NavBar @onChangeDarkMode="(value) => isDark = value" /> -->
     <NavBar />
     <ShoppingCart />
-    <div class="min-h-screen  bg-primary-100 dark:bg-secondary-1000">
+    <div class="min-h-screen bg-primary-100 dark:bg-secondary-1000">
       <slot></slot>
     </div>
     

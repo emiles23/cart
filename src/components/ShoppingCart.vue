@@ -28,7 +28,7 @@
         <CartHeader class="mt-4" />
         <!-- products... -->
         <div class="mt-3">
-          <CartProduct v-for="(product, index) in products" :key="index" :product="product" :index="index" />
+          <SummaryProductCard v-for="(product, index) in products" :key="index" :product="product" :index="index" />
         </div>
         <!-- end products... -->
         <!-- discounts -->
@@ -93,7 +93,8 @@
             ">
             <!-- <p class="mt-0.5 text-sm text-gray-500">Shipping and taxes calculated at checkout.</p> -->
             <div class="mt-6 ">
-              <CustomButton>Checkout</CustomButton>
+              <CustomButton @click="() => 
+                $router.push('/checkout')">Checkout</CustomButton>
             </div>
             <div class="
               mt-6 
@@ -117,7 +118,7 @@
 
 import Delete from "./icons/Delete.vue";
 import TextDiscountGroups from "./TextDiscountGroups.vue";
-import CartProduct from "./CartProduct.vue";
+import SummaryProductCard from "./SummaryProductCard.vue";
 import ModalCart from "./ModalCart.vue";
 import CartHeader from "./CartHeader.vue";
 import SubtotalTotal from "./SubtotalTotal.vue";
@@ -133,7 +134,7 @@ export default {
   components: {
     Delete,
     TextDiscountGroups,
-    CartProduct,
+    SummaryProductCard,
     ModalCart,
     CartHeader,
     CustomButton,

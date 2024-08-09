@@ -1,7 +1,7 @@
 <template>
-  <div class="group relative">
-    <div class="
-         min-h-80 
+  <div class="group relative pb-10">
+    <!-- img -->
+    <div class="         
           aspect-h-1 
          aspect-w-1 
          w-full 
@@ -13,7 +13,7 @@
          lg:h-80">
       <img @click="() => {
         displayedProduct = product
-        currentTab = tabs[3]
+        $router.push('/product')
       }" :src="product.img" class=" 
         h-full 
         w-full 
@@ -22,29 +22,32 @@
         lg:h-full 
         lg:w-full">
     </div>
+    <!-- end img -->
     <div class="
-        mt-4 
-        flex 
-        justify-between 
-        gap-7 
+        mt-4
+        gap-4
+        grid 
+        px-3
+        pt-5
+        pb-10
+        grid-cols-12  
+        text-secondary-600 
+        dark:text-primary-300
+        text-base
+        text-justify
         capitalize">
-      <div>
-        <p class=" text-gray-700 dark:text-gray-300 ">
-          {{ product.name }}
-        </p>
-        <p class="mt-5 text-gray-500 dark:text-gray-400 ">
-          {{ product.brand }}
-        </p>
+      <div class="col-span-7">
+        <p class="brand-name-container-size">{{ product.name }} </p>
+        <p class="mt-10">{{ product.brand }}</p>
       </div>
-      <div class="flex flex-col gap-y-3   ">
+      <div class="col-span-5">
         <template v-if="isGroupDiscountAvailable(product)">
-          <div class="flex gap-2">
-            <h1 class="text-gray-500 dark:text-gray-300">Descuento</h1>
-            <Question @mouseover="showDiscountDropDown = true" @mouseleave="showDiscountDropDown = false" class="
-                col-span-3 
-                flex 
-                justify-end 
-                h-5 p-1 
+          <div class="flex gap-2 justify-between pb-5">
+            <h1 @mouseover="showDiscountDropDown = true" @mouseleave="showDiscountDropDown = false"
+              class="text-secondary-500 dark:text-primary-300 text-sm cursor-pointer">Descuento</h1>
+            <Question @mouseover="showDiscountDropDown = true" @mouseleave="showDiscountDropDown = false" class="    
+                h-5 
+                p-1 
                 text-gray-500 
                 bg-gray-200 
                 shadow-lg 
@@ -64,36 +67,19 @@
               :key="index" :discount="discount" :class="index % 2 == 1 ? 'py-3' : ''" />
           </DropDown>
         </template>
-
-        <div class="flex flex-col dark:text-gray-300">
-          <div v-if="product.productDiscount" class="flex justify-center gap-4">
-            <span :class="product.productDiscount ? 'line-through decoration text-gray-400' : ''">
-              ${{ product.price }}
-            </span>
-            <span>
-              {{ product.discountRepresentation }}
-
-            </span>
-          </div>
-
-          <div class="flex justify-center">
-            <span v-if="product.productDiscount">
-              ${{ product.discountedPrice.toFixed(2) }}
-            </span>
-            <span v-else>
-              ${{ product.price }}
-            </span>
-          </div>
-
-        </div>
+        <ProductPrice :product="product" class=" text-sm" />
       </div>
     </div>
     <h1 @click="add(product)" class="
       text-center
-      dark:text-sky-400
+      absolute
+      right-0 
+      left-0
+      bottom-5
+      dark:text-tertiary-400
       text-zinc-950
-      hover:text-zinc-700
-      cursor-pointer "> Agregar al Carrito
+      hover:text-tertiary-800
+      cursor-pointer"> Agregar al Carrito
     </h1>
   </div>
 
@@ -105,19 +91,22 @@
 import DropDown from "./DropDown.vue";
 import TextDiscountGroups from "./TextDiscountGroups.vue";
 import Question from "./icons/Question.vue";
+import ProductPrice from "./ProductPrice.vue"
 //  'pinia'
 import { mapActions, mapState, mapWritableState } from 'pinia'
 import { useShoppingCartStoreStore } from "../store/shoppingCartStore.js"
 import { useDefinitionsStore } from "../store/definitions.js"
 import { useProductDetailStore } from "../store/productDetail.js"
 import { useTabsStore } from "../store/tabs.js"
+import router from "../router";
 
 export default {
 
   components: {
     DropDown,
     Question,
-    TextDiscountGroups
+    TextDiscountGroups,
+    ProductPrice
   },
 
   props: {
@@ -148,3 +137,10 @@ export default {
   }
 }
 </script>
+
+<style>
+.brand-name-container-size {
+  min-height: 100px;
+  max-height: 100px;
+}
+</style>

@@ -1,6 +1,6 @@
 <template>
   <BasicCard class="grid grid-cols-12 p-2 gap-x-12">
-    <div class="col-span-6 grid grid-cols-12">
+    <div class="col-span-7 grid grid-cols-12">
       <div class="col-span-2 pr-2 pb-2">
         <img @click="currentImageSrc = image.img" v-for="(image) in displayedProduct.images" :src="image.img"
           :class="currentImageSrc == image.img ? 'border dark:border-tertiary-500 border-tertiary-800' : ''"
@@ -11,10 +11,10 @@
       </div>
     </div>
 
-    <div class="col-span-6 p-20">
-      <div class="text-2xl grid grid-cols-2 pb-5">
-        <h1 class="">{{ displayedProduct.name }}</h1>
-        <h1 class="flex justify-end">${{ displayedProduct.price }}</h1>
+    <div class="col-span-5 pr-10 pt-4">
+      <div class="text-2xl grid grid-cols-12 pb-5 gap-5">
+        <h1 class="col-span-9">{{ displayedProduct.name }}</h1>
+        <ProductPrice :product="displayedProduct" class="col-span-3 text-end text-xl"/>
       </div>
       <div class="flex">
         <h1>0</h1>
@@ -27,7 +27,8 @@
           <h1>{{ option.size }}</h1>
         </CartSelect>
       </div>
-      <Accordion :titleAccordio="titleAccordio">
+      <Accordion :titleAccordio="titleAccordio" class="my-10">
+
         <table>
           <tbody class="text-justify text-xs font-normal leading-loose">
             <tr v-for="(description) in displayedProduct.descriptions">
@@ -38,7 +39,7 @@
         </table>
       </Accordion>
 
-      <CustomButton class="mt-10">Agregar al Carrito</CustomButton>
+      <CustomButton>Agregar al Carrito</CustomButton>
     </div>
 
   </BasicCard>
@@ -49,7 +50,8 @@ import CartSelect from "./CartSelect.vue";
 import BasicCard from "./BasicCard.vue";
 import CustomButton from "./CustomButton.vue";
 import Star from "./icons/Star.vue";
-import Accordion from "./Accordion.vue"
+import Accordion from "./Accordion.vue";
+import ProductPrice from "./ProductPrice.vue"
 
 // pinia
 import { mapState } from 'pinia'
@@ -62,6 +64,7 @@ export default {
     CartSelect,
     CustomButton,
     Accordion,
+    ProductPrice,
   },
   data() {
     return {

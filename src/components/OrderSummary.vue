@@ -6,15 +6,15 @@
               max-h-screen-45
               px-5               
             ">
-        <CartProduct v-for="(product, index) in products" :key="index" :product="product" :index="index" />
+        <SummaryProductCard v-for="(product, index) in products" :key="index" :product="product" :index="index" />
       </div>
       <div class="
-                border-t border-b  
-                border-gray-900/10                                             
-                p-5
-                leading-loose                               b
+           border-t border-b  
+            border-gray-900/10                                             
+            p-5
+            leading-loose                               b
             ">
-        <SubtotalTotal class="" />
+        <SubtotalTotal />
       </div>
       <div class="flex items-center h-24 px-5">
         <CustomButton>Confirmar pedido</CustomButton>
@@ -33,7 +33,7 @@
 
 <script>
 
-import CartProduct from "./CartProduct.vue";
+import SummaryProductCard from "./SummaryProductCard.vue";
 import SubtotalTotal from "./SubtotalTotal.vue";
 import CustomButton from "./CustomButton.vue";
 import BasicCard from "./BasicCard.vue";
@@ -44,7 +44,7 @@ export default {
 
   components: {
     SubtotalTotal,
-    CartProduct,
+    SummaryProductCard,
     CustomButton,
     BasicCard
   },
