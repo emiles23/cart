@@ -6,12 +6,15 @@
     <ButtonCart @click="shoppingCartStore.show = ! shoppingCartStore.show" />
   </div> -->
   <!-- drop-shadow-md -->
-  <div class="  
-    flex 
-    items-center 
-    justify-end 
-    gap-12 pr-10 
-    w-full h-20 
+  <div class=" 
+    fixed
+    grid
+    grid-cols-12
+     items-center 
+    z-10
+    pr-10 
+    w-full 
+    h-20 
     shadow-xl 
     border  
     dark:bg-gray-900 
@@ -19,27 +22,37 @@
     text-black 
     border-gray-200       
     ">
-    <InputSearch />
-    <button @click="changeDarkMode">
-      <Moon v-if="isDark" />
-      <Sun v-else />
-    </button>
+    <div class="col-span-7 pl-52">
+      <h1 @click="() => $router.push('/')" class="text-secondary-800 dark:text-primary-50 cursor-pointer">Productos</h1>
+    </div>
+    <div class="  
+       col-span-5
+       flex 
+       gap-12 
+       justify-end ">  
+      <InputSearch />
+      <button @click="changeDarkMode">
+        <Moon v-if="isDark" />
+        <Sun v-else />
+      </button>
 
-
-    <button @click="show = !show" class="flex gap-2 ">
-      <ShoppingBag class="text-gray-500
+      <button @click="show = !show" class="flex gap-2 ">
+        <ShoppingBag class="text-gray-500
          dark:text-gray-300 
          hover:text-gray-600 
          drop-shadow-md">\
-      </ShoppingBag>
-      <span class="
+        </ShoppingBag>
+        <span class="
         dark:text-gray-300 
         hover:text-gray-600
         text-gray-500 ">
-        {{ totalQty() }}
-      </span>
-    </button>
+          {{ totalQty() }}
+        </span>
+      </button>
+    </div>
   </div>
+
+
 </template>
 
 <script>
@@ -82,9 +95,9 @@ export default {
 
   },
 
-  computed:{
+  computed: {
     ...mapWritableState(useDarkModeStore, ['isDark']),
     ...mapWritableState(useShoppingCartStoreStore, ['show']),
-   }
+  }
 }
 </script>

@@ -1,5 +1,5 @@
 <template>
-  <div class="font-medium" :class="{'dark': isDark }">
+  <div class="font-medium " :class="{'dark': isDark }">
     <!-- <NavBar @onChangeDarkMode="(value) => isDark = value" /> -->
     <NavBar />
     <ShoppingCart />

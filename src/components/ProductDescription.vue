@@ -10,11 +10,10 @@
         <img :src="currentImageSrc">
       </div>
     </div>
-
-    <div class="col-span-5 pr-10 pt-4">
+    <div class="col-span-5 py-5 pr-10 pt-4">
       <div class="text-2xl grid grid-cols-12 pb-5 gap-5">
         <h1 class="col-span-9">{{ displayedProduct.name }}</h1>
-        <ProductPrice :product="displayedProduct" class="col-span-3 text-end text-xl"/>
+        <ProductPrice :product="displayedProduct" class="col-span-3 text-end text-xl" />
       </div>
       <div class="flex">
         <h1>0</h1>
@@ -38,8 +37,7 @@
           </tbody>
         </table>
       </Accordion>
-
-      <CustomButton>Agregar al Carrito</CustomButton>
+      <CustomButton @click="add(displayedProduct)">Agregar al Carrito</CustomButton>
     </div>
 
   </BasicCard>
@@ -54,8 +52,9 @@ import Accordion from "./Accordion.vue";
 import ProductPrice from "./ProductPrice.vue"
 
 // pinia
-import { mapState } from 'pinia'
+import { mapState, mapActions } from 'pinia'
 import { useProductDetailStore } from "../store/productDetail.js"
+import { useShoppingCartStoreStore } from "../store/shoppingCartStore.js"
 
 export default {
   components: {
@@ -71,6 +70,10 @@ export default {
       currentImageSrc: '',
       titleAccordio: 'Descripción',
     }
+  },
+
+  methods: {
+    ...mapActions(useShoppingCartStoreStore, ['add']),
   },
 
   mounted() {

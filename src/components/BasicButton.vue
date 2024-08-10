@@ -1,6 +1,5 @@
 <template>
     <button class="             
-        px-10
         py-1
         rounded-md 
         border 

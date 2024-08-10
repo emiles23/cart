@@ -19,9 +19,8 @@ export default {
     Close
   },
 
-  computed: { 
+  computed: {
     ...mapWritableState(useShoppingCartStoreStore, ['show']),
   }
-
 }
 </script>

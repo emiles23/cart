@@ -1,5 +1,5 @@
 <template>
-  <BasicButton :icon="icon" />
+  <BasicButton :icon="icon" class="px-5" />
 </template>
 
 <script>

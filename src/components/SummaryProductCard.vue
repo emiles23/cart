@@ -17,8 +17,7 @@
           <ProductPrice :product="product" class=" text-sm" />
           <p class="
               my-2
-              text-sm                      
-             
+              text-sm                                  
               capitalize">
             {{ product.brand }}
           </p>

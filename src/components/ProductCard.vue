@@ -12,8 +12,12 @@
          group-hover:opacity-75 
          lg:h-80">
       <img @click="() => {
-        displayedProduct = product
-        $router.push('/product')
+        $router.push({
+          name: 'Producto',
+          params: {
+            id: product.id
+          }
+        })
       }" :src="product.img" class=" 
         h-full 
         w-full 
@@ -34,12 +38,12 @@
         text-secondary-600 
         dark:text-primary-300
         text-base
-        text-justify
+        
         capitalize">
       <div class="col-span-7">
-        <p class="brand-name-container-size">{{ product.name }} </p>
-        <p class="mt-10">{{ product.brand }}</p>
+        <p class="pb-14">{{ product.name }} </p>
       </div>
+      <p class="absolute left-5 bottom-20">{{ product.brand }}</p>
       <div class="col-span-5">
         <template v-if="isGroupDiscountAvailable(product)">
           <div class="flex gap-2 justify-between pb-5">
@@ -70,19 +74,8 @@
         <ProductPrice :product="product" class=" text-sm" />
       </div>
     </div>
-    <h1 @click="add(product)" class="
-      text-center
-      absolute
-      right-0 
-      left-0
-      bottom-5
-      dark:text-tertiary-400
-      text-zinc-950
-      hover:text-tertiary-800
-      cursor-pointer"> Agregar al Carrito
-    </h1>
+    <BasicButton @click="add(product)" class="absolute left-16 bottom-5 px-5 text-sm" >Agregar al Carrito</BasicButton>
   </div>
-
   <!-- More products... -->
 </template>
 
@@ -92,13 +85,12 @@ import DropDown from "./DropDown.vue";
 import TextDiscountGroups from "./TextDiscountGroups.vue";
 import Question from "./icons/Question.vue";
 import ProductPrice from "./ProductPrice.vue"
+import BasicButton from "./BasicButton.vue"
 //  'pinia'
 import { mapActions, mapState, mapWritableState } from 'pinia'
 import { useShoppingCartStoreStore } from "../store/shoppingCartStore.js"
 import { useDefinitionsStore } from "../store/definitions.js"
-import { useProductDetailStore } from "../store/productDetail.js"
 import { useTabsStore } from "../store/tabs.js"
-import router from "../router";
 
 export default {
 
@@ -106,7 +98,8 @@ export default {
     DropDown,
     Question,
     TextDiscountGroups,
-    ProductPrice
+    ProductPrice,
+    BasicButton
   },
 
   props: {
@@ -132,7 +125,6 @@ export default {
 
   computed: {
     ...mapState(useDefinitionsStore, ['discounts', 'discountGroups']),
-    ...mapWritableState(useProductDetailStore, ['displayedProduct']),
     ...mapWritableState(useTabsStore, ['currentTab', 'tabs']),
   }
 }

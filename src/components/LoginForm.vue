@@ -3,7 +3,7 @@
     <BasicForm :rows="rows" :buttonTitle="buttonTitle" />
     <h1 class="flex justify-center py-10">O continuar con</h1>
     <div class="flex justify-center gap-5">
-      <BasicButton v-for="button in buttons" :icon="button.icon">{{ button.name }}</BasicButton>
+      <BasicButton v-for="button in buttons" :icon="button.icon" class="px-10">{{ button.name }}</BasicButton>
     </div>
 
   </div>

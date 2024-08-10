@@ -9,9 +9,8 @@ import Checkout from './pages/Checkout.vue'
 const routes = [
     { path: '/', component: ProductsAvailable, name:'Productos'},
     { path: '/login', component: Login },
-    { path: '/product', component: Product, name:'Producto' },
+    { path: '/products/:id', component: Product, name:'Producto' },
     { path: '/checkout', component: Checkout, name:'Checkout' },
-
 ]
 
 const router = createRouter({
