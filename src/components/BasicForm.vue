@@ -25,9 +25,9 @@
 
         <div v-for="(field, index) in row.fields" :class="row.class" class="block text-sm font-medium">
 
-          <div v-if="field.type === 'radio'" class="flex gap-4 flex-col">
+          <div v-if="field.type === 'radio'" class="">
             <label class="leading-10"> {{ field.label }} </label>
-            <div class="flex">
+            <div class="sm:flex">
               <div v-for="(option, index) in field.options" class="flex mr-4">
                 <input v-model="field.value" :type="field.type" :value="option.value" class="cursor-pointer" />
                 <label class="pl-2">{{ option.label }}</label>
@@ -45,7 +45,7 @@
             </FieldSelect>
           </div>
 
-          <div v-else-if="field.type === 'CartSelect'" class="grid grid-cols-2 gap-4">
+          <div v-else-if="field.type === 'CartSelect'" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <CartSelect v-for="(option, index) in field.options" :key="index" :option="option" v-model="field.value"
               class="h-32">
               <span class="flex flex-col text-justify">

@@ -4,7 +4,8 @@
       <div class="            
               overflow-y-auto 
               max-h-screen-45
-              px-5               
+              px-0 
+              sm:px-5             
             ">
         <SummaryProductCard v-for="(product, index) in products" :key="index" :product="product" :index="index" />
       </div>
@@ -16,9 +17,9 @@
             ">
         <SubtotalTotal />
       </div>
-      <div class="flex items-center h-24 px-5">
+      <!-- <div class="flex items-center h-24 px-5">
         <CustomButton>Confirmar pedido</CustomButton>
-      </div>
+      </div> -->
     </div>
     <div v-else class="
         h-96 flex 

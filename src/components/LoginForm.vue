@@ -2,8 +2,9 @@
   <div>
     <BasicForm :rows="rows" :buttonTitle="buttonTitle" />
     <h1 class="flex justify-center py-10">O continuar con</h1>
-    <div class="flex justify-center gap-5">
-      <BasicButton v-for="button in buttons" :icon="button.icon" class="px-10">{{ button.name }}</BasicButton>
+    <div class="flex   justify-center items-center gap-5 flex-row">
+      <BasicButton v-for="button in buttons" :icon="button.icon" class="px-6 sm:px-3 md:px-4 lg:px-11">{{ button.name }}
+      </BasicButton>
     </div>
 
   </div>
@@ -50,7 +51,7 @@ export default {
         },
 
         {
-          class: 'col-span-12 flex w-full gap-12',
+          class: 'col-span-12 pt-5 flex w-full gap-12',
           fields: [
             {
               type: 'radio',

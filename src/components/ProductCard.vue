@@ -9,8 +9,9 @@
          rounded-md 
          bg-gray-200 
          lg:aspect-none 
-         group-hover:opacity-75 
-         lg:h-80">
+         group-hover:opacity-75
+         h-72
+         sm:h-80">
       <img @click="() => {
         $router.push({
           name: 'Producto',
@@ -40,11 +41,11 @@
         text-base
         
         capitalize">
-      <div class="col-span-7">
+      <div class="col-span-7 ">
         <p class="pb-14">{{ product.name }} </p>
       </div>
       <p class="absolute left-5 bottom-20">{{ product.brand }}</p>
-      <div class="col-span-5">
+      <div class="col-span-5 ">
         <template v-if="isGroupDiscountAvailable(product)">
           <div class="flex gap-2 justify-between pb-5">
             <h1 @mouseover="showDiscountDropDown = true" @mouseleave="showDiscountDropDown = false"
@@ -74,7 +75,8 @@
         <ProductPrice :product="product" class=" text-sm" />
       </div>
     </div>
-    <BasicButton @click="add(product)" class="absolute left-16 bottom-5 px-5 text-sm" >Agregar al Carrito</BasicButton>
+    <BasicButton @click="add(product)" class="absolute left-24 sm:left-16 2xl:left-24 bottom-5 px-5 text-sm">Agregar al
+      Carrito</BasicButton>
   </div>
   <!-- More products... -->
 </template>

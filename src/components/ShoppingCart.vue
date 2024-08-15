@@ -42,40 +42,41 @@
           py-6 
           sm:px-6
           text-justify      
-          text-sm
+          text-sm       
           ">
-          <div v-if="discountsApplied" class="text-secondary-600 dark:text-secondary-400">
-            <div v-for="(discount, index) in discountsApplied" :key="index" class="pb-4">
-              <span v-if="discount.remainingForDiscount > 0">
-                Obten un descuento del
-                <span>{{ discount.value }}%</span>
-                por llevar <span class="font-extrabold"> ${{ discount.min }}</span>
-                en la marca
-                <span class="font-extrabold">{{ discount.brand }}</span>
-                faltan <span class="font-extrabold"> ${{ discount.remainingForDiscount.toFixed(2) }}</span>
+          <div class="pb-20 px-5 sm:px-0 sm:pb-32 md:pb-10 lg:pb-24">
+            <div v-if="discountsApplied" class="text-secondary-600 dark:text-secondary-400">
+              <div v-for="(discount, index) in discountsApplied" :key="index" class="pb-4">
+                <span v-if="discount.remainingForDiscount > 0">
+                  Obten un descuento del
+                  <span>{{ discount.value }}%</span>
+                  por llevar <span class="font-extrabold"> ${{ discount.min }}</span>
+                  en la marca
+                  <span class="font-extrabold">{{ discount.brand }}</span>
+                  faltan <span class="font-extrabold"> ${{ discount.remainingForDiscount.toFixed(2) }}</span>
+                </span>
+                <span v-else class="text-tertiary-700 dark:text-tertiary-500">
+                  Se ha aplicado un descuento del
+                  <span class=" text-red-500">{{ discount.value }}%</span>
+                  por llevar <span class="font-extrabold"> ${{ discount.totalPaymentPerBrand.toFixed(2)
+                  }}</span>
+                  en la marca
+                  <span class="font-extrabold">{{ discount.brand }}</span>
+                </span>
+              </div>
+            </div>
+
+            <div v-for="(discount, index) in discountGroups" :key="index" class="pb-5">
+              <span v-if="isGroupDiscountApplicable(discount)" class="text-tertiary-700 dark:text-tertiary-500">
+                Se ha aplicado un descuento del <span class=" text-red-500">{{
+                  getDiscountGroupsRepresentation(discount)
+                }}</span> por
+                llevar las marcas <span class="font-extrabold">{{ discount.brands.join(', ') }}</span>
               </span>
-              <span v-else class="text-tertiary-700 dark:text-tertiary-500">
-                Se ha aplicado un descuento del
-                <span class=" text-red-500">{{ discount.value }}%</span>
-                por llevar <span class="font-extrabold"> ${{ discount.totalPaymentPerBrand.toFixed(2)
-                }}</span>
-                en la marca
-                <span class="font-extrabold">{{ discount.brand }}</span>
-              </span>
+              <TextDiscountGroups v-else :discount="discount" />
             </div>
           </div>
-
-          <div v-for="(discount, index) in discountGroups" :key="index" class="pb-5">
-            <span v-if="isGroupDiscountApplicable(discount)" class="text-tertiary-700 dark:text-tertiary-500">
-              Se ha aplicado un descuento del <span class=" text-red-500">{{
-                getDiscountGroupsRepresentation(discount)
-              }}</span> por
-              llevar las marcas <span class="font-extrabold">{{ discount.brands.join(', ') }}</span>
-            </span>
-            <TextDiscountGroups v-else :discount="discount" />
-          </div>
           <!-- total and subtotal -->
-
           <SubtotalTotal class="
             fixed 
             w-96
@@ -93,7 +94,7 @@
             ">
             <!-- <p class="mt-0.5 text-sm text-gray-500">Shipping and taxes calculated at checkout.</p> -->
             <div class="mt-6 ">
-              <CustomButton @click="() => 
+              <CustomButton @click="() =>
                 $router.push('/checkout')">Checkout</CustomButton>
             </div>
             <div class="
@@ -173,6 +174,11 @@ export default {
 
   },
 
+  watch: {
+    products(newValue) {
+      localStorage.setItem('cartPruducts', JSON.stringify(newValue))
+    }
+  },
   computed: {
     ...mapState(useDefinitionsStore, ['discountGroups', 'discounts']),
     ...mapWritableState(useShoppingCartStoreStore, ['products', 'show']),

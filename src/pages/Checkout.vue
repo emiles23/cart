@@ -1,12 +1,12 @@
 
 <template>
-    <BasicCard class="grid grid-cols-12 p-20 gap-x-20">
+    <BasicCard class=" flex flex-col-reverse px-5 py-5 gap-y-10 lg:grid lg:grid-cols-12 lg:p-10 lg:gap-x-10 xl:gap-x-20 xl:p-20">
       <!-- ORDER FORM -->
-      <div class="col-span-7">
+      <div class="lg:col-span-7">
         <CheckoutForm />
       </div>
       <!-- Resumen del pedido -->
-      <div class="col-span-5">
+      <div class="lg:col-span-5">
         <h2 class="text-xl font-semibold leading-7 pb-5">Resumen del pedido</h2>
         <OrderSummary />
       </div>

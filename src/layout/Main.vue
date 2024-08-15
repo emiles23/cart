@@ -2,7 +2,7 @@
   <div class="font-medium " :class="{'dark': isDark }">
     <!-- <NavBar @onChangeDarkMode="(value) => isDark = value" /> -->
     <NavBar />
-    <ShoppingCart />
+    <ShoppingCart v-if="$route.name !=='Checkout'" />
     <div class="min-h-screen bg-primary-100 dark:bg-secondary-1000">
       <slot></slot>
     </div>
@@ -33,9 +33,17 @@ export default {
   },
 
   computed:{
+    
     ...mapState(useDarkModeStore, ['isDark']),
-   }
+
+   
+   },
 
 
+  // watch: {
+  //   '$route'(newValue) {
+  //     console.log(newValue.name)
+  //   }
+  // }
 }
 </script>

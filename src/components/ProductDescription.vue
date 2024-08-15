@@ -1,6 +1,6 @@
 <template>
-  <BasicCard class="grid grid-cols-12 p-2 gap-x-12">
-    <div class="col-span-7 grid grid-cols-12">
+  <BasicCard class="grid grid-cols-1 sm:grid-cols-12 p-2 gap-y-10 sm:gap-x-5 lg:gap-x-12">
+    <div class="sm:col-span-5 lg:col-span-7 grid grid-cols-12">
       <div class="col-span-2 pr-2 pb-2">
         <img @click="currentImageSrc = image.img" v-for="(image) in displayedProduct.images" :src="image.img"
           :class="currentImageSrc == image.img ? 'border dark:border-tertiary-500 border-tertiary-800' : ''"
@@ -10,9 +10,9 @@
         <img :src="currentImageSrc">
       </div>
     </div>
-    <div class="col-span-5 py-5 pr-10 pt-4">
+    <div class="sm:col-span-7 lg:col-span-5 py-5 lg:pr-10 pt-4">
       <div class="text-2xl grid grid-cols-12 pb-5 gap-5">
-        <h1 class="col-span-9">{{ displayedProduct.name }}</h1>
+        <h1 class="col-span-5 md:col-span-9">{{ displayedProduct.name }}</h1>
         <ProductPrice :product="displayedProduct" class="col-span-3 text-end text-xl" />
       </div>
       <div class="flex">
@@ -22,12 +22,11 @@
       <h1 class="pt-7 pb-2">Talla</h1>
       <div class="grid grid-cols-12 gap-1 pb-10">
         <CartSelect v-for="(option, ) in displayedProduct.options" :option="option" v-model="displayedProduct.value"
-          class="col-span-2 text-center">
+          class="col-span-2  text-center">
           <h1>{{ option.size }}</h1>
         </CartSelect>
       </div>
       <Accordion :titleAccordio="titleAccordio" class="my-10">
-
         <table>
           <tbody class="text-justify text-xs font-normal leading-loose">
             <tr v-for="(description) in displayedProduct.descriptions">

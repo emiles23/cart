@@ -1,17 +1,17 @@
 <template>
   <div class="flow-root">
-    <ul  class="text-secondary-600 dark:text-primary-300">
+    <ul class="text-secondary-600 dark:text-primary-300">
       <li :class="index > 0 ? 'border-t border-primary-200 dark:border-secondary-600' : ''"
-        class="grid grid-cols-12 gap-x-4 py-8 mt-4">
+        class="grid grid-cols-12 gap-x-4 py-8 mt-4 px-5 sm:px-0">
         <div class="
-              col-span-4             
+             col-span-4            
               border                    
             border-x-primary-200                   
             ">
           <img :src="product.img">
         </div>
-        <div class=" col-span-8">
-          <h1>
+        <div class="col-span-8">
+          <h1 class="text-sm sm:text-base">
             <a href="#">{{ product.name }}</a>
           </h1>
           <ProductPrice :product="product" class=" text-sm" />

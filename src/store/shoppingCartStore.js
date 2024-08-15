@@ -4,7 +4,7 @@ import { useDefinitionsStore } from "../store/definitions.js"
 export const useShoppingCartStoreStore = defineStore('shoppingCartStore', {
 
     state: () => ({
-        products: [],
+        products: localStorage.getItem('cartPruducts') !== null  ? JSON.parse(localStorage.getItem('cartPruducts')) : [],
         show: false,
     }),
 

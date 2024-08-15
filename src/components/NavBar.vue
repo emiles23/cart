@@ -30,13 +30,13 @@
        flex 
        gap-12 
        justify-end ">  
-      <InputSearch />
+      <InputSearch  />
       <button @click="changeDarkMode">
         <Moon v-if="isDark" />
         <Sun v-else />
       </button>
 
-      <button @click="show = !show" class="flex gap-2 ">
+      <button  v-if="$route.name !=='Checkout'"   @click="show = !show" class="flex gap-2 ">
         <ShoppingBag class="text-gray-500
          dark:text-gray-300 
          hover:text-gray-600 
@@ -51,8 +51,6 @@
       </button>
     </div>
   </div>
-
-
 </template>
 
 <script>
@@ -80,19 +78,14 @@ export default {
     ...mapActions(useShoppingCartStoreStore, ['totalQty']),
 
     changeDarkMode() {
-      // console.log('hola')
       this.isDark = !this.isDark
-      localStorage.isDark = this.isDark
-      // this.$emit('onChangeDarkMode',  this.isDark )
     },
   },
 
-  mounted() {
-    if (localStorage.isDark !== undefined) {
-      this.isDark = JSON.parse(localStorage.isDark)
-      // this.$emit('onChangeDarkMode',  this.isDark )
+  watch: {
+    isDark(newValue) {
+      localStorage.setItem('isDark', JSON.stringify(newValue))
     }
-
   },
 
   computed: {

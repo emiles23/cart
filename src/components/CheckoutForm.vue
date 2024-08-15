@@ -26,7 +26,7 @@ export default {
         },
 
         {
-          class: 'col-span-6',
+          class: 'col-span-12 sm:col-span-6',
           subTitle: 'Información de envío',
           fields: [
             { name: 'Nombre', label: 'Nombre', type: 'text', value: '' },
@@ -34,7 +34,7 @@ export default {
           ]
         },
         {
-          class: 'col-span-12 mt-4',
+          class: 'col-span-12 sm:col-span-6 mt-4',
           fields: [
             { name: 'Apellido', label: 'Empresa', type: 'text', value: '' },
             { name: 'Apellido', label: 'Dirección', type: 'text', value: '' },
@@ -42,7 +42,7 @@ export default {
         },
 
         {
-          class: 'col-span-4  mt-6',
+          class: 'col-span-12 sm:col-span-4  mt-6',
           fields: [
             {
               type: 'select',
@@ -81,7 +81,7 @@ export default {
         },
 
         {
-          class: 'col-span-6 mt-4',
+          class: 'col-span-12 sm:col-span-6 mt-4',
           fields: [
             { name: 'Apellido', label: 'Código postal', type: 'text', value: '' },
             { name: 'Apellido', label: 'Apartamento, suite, etc.', type: 'text', value: '' },
@@ -147,7 +147,7 @@ export default {
             name: 'paymentType',
             value: 0,
           },
-          class: 'col-span-6 mt-4',
+          class: 'col-span-12 sm:col-span-6 mt-4',
           fields: [
             { name: 'expiration-date', label: 'Fecha de caducidad (MM/AA)', type: 'date', value: '', },
             { name: 'cvc', label: 'CVC', type: 'text', value: '' },

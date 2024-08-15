@@ -1,6 +1,6 @@
 <template>
   <Main>
-    <div class="mt-6 grid grid-cols-1 gap-x-10 gap-y-20 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8 prim">
+    <div class="mt-6 grid grid-cols-1 gap-x-10 gap-y-20 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8 prim">
       <ProductCard v-for="(product, index) in productsWithDicount" :key="index" :product="product"
         :discountGroups="discountGroups" :getProductDiscount="getProductDiscount(product)" class="
             dark:bg-secondary-900 bg-gray-50 
