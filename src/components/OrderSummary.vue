@@ -1,25 +1,24 @@
 <template>
-  <BasicCard class="max-h-screen-70">
+  <BasicCard>
     <div v-if="!elementCart()">
       <div class="            
-              overflow-y-auto 
-              max-h-screen-45
-              px-0 
-              sm:px-5             
-            ">
+            overflow-y-auto 
+            max-h-screen
+            px-0 
+            sm:px-5             
+      ">
         <SummaryProductCard v-for="(product, index) in products" :key="index" :product="product" :index="index" />
       </div>
       <div class="
-           border-t border-b  
-            border-gray-900/10                                             
-            p-5
-            leading-loose                               b
-            ">
+          p-8
+          sm:px-5
+          sm:py-20
+          border-t  
+          border-secondary-800                                            
+          leading-loose                               b
+      ">
         <SubtotalTotal />
       </div>
-      <!-- <div class="flex items-center h-24 px-5">
-        <CustomButton>Confirmar pedido</CustomButton>
-      </div> -->
     </div>
     <div v-else class="
         h-96 flex 
@@ -65,9 +64,9 @@ export default {
 
 
 <style scoped>
-.max-h-screen-45 {
-  max-height: 45vh;
-}
+/* .max-h-screen-45 {
+  max-height: 90vh;
+} */
 
 .max-h-screen-70 {
   max-height: 83vh;
